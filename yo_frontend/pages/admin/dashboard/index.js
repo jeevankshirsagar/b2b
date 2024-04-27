@@ -1,114 +1,161 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { connect } from "react-redux";
-import { Row, Col } from "reactstrap";
-import dynamic from "next/dynamic";
+import { Row, Col, Progress } from "reactstrap";
+import dynamic from 'next/dynamic';
 import { withRouter } from "next/router";
-import Head from "next/head";
-import s from "./Dashboard.module.scss";
-import SimpleLine from "./widget";
-import { splineArea } from "./chartsMock";
+const ApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
+
+import { chartData, splineArea } from './chartsMock';
+import SimpleLine from './widget';
+import Head from 'next/head';
 import HomePageWidget from "../widgets/HomePageWidget";
+import s from "./Dashboard.module.scss";
 
 
-const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
-const Index = ({ currentUser }) => {
-  const [usersData, setUsersData] = useState({ rows: [] });
 
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const res = await fetch("http://localhost:8080/api/users/");
-        if (!res.ok) {
-          throw new Error(`HTTP error! status: ${res.status}`);
+class Index extends React.Component {
+
+
+    state = {
+      graph: null,
+      checkedArr: [false, false, false],
+      pie: {
+        options: {
+          chart: {
+            type: 'donut'
+          },
+          colors: ["#745FF9", "#E74A4B", "#FF943B"],
+          labels: ["On progress", "Canceled", "Booked"],
+          stroke: {
+            show: false,
+            width: 0
+          },
+          plotOptions: {
+            pie: {
+              donut: {
+                size: '45%'
+              }
+            }
+          },
+          dataLabels: {
+            dropShadow: {
+              enabled: false
+            }
+          },
+          legend: {
+            show: false
+          },
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }]
         }
-        const data = await res.json();
-        console.log(data)
-        setUsersData({ rows: data }); // Update usersData with an object containing the fetched data
-      } catch (error) {
-        console.error("Error fetching user data:", error);
-      }
+      },
     };
 
-    fetchUserData();
-  }, []);
+    componentDidMount() {
+      if (typeof window !== 'undefined') {
+          window.addEventListener("resize", this.forceUpdate);
+      }
+  }
 
+  forceUpdate = () => {
+    return this.setState({});
+  }
 
-    return (
-      <>
+  checkTable = (id) => {
+    let arr = [];
+    if (id === 0) {
+      const val = !this.state.checkedArr[0];
+      for (let i = 0; i < this.state.checkedArr.length; i += 1) {
+        arr[i] = val;
+      }
+    } else {
+      arr = this.state.checkedArr;
+      arr[id] = !arr[id];
+    }
+    if (arr[0]) {
+      let count = 1;
+      for (let i = 1; i < arr.length; i += 1) {
+        if (arr[i]) {
+          count += 1;
+        }
+      }
+      if (count !== arr.length) {
+        arr[0] = !arr[0];
+      }
+    }
+    this.setState({
+      checkedArr: arr,
+    });
+  }
+
+  
+
+  render() {
+      return (
+        <>
         <Head>
-          <title>Ecommerce dashboard</title>
-          <meta
-            name="viewport"
-            content="initial-scale=1.0, width=device-width"
-          />
+          <title>{this.props.currentUser.firstName} dashboard</title>
+          <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
-          <meta name="description" content="b2b store and module" />
-          <meta name="keywords" content="yodigital" />
-          <meta name="author" content="yodigital pvt. ltd." />
-          <meta charSet="utf-8" />
+        <meta name="description" content="b2b store and module" />
+        <meta name="keywords" content="yodigital" />
+        <meta name="author" content="yodigital pvt. ltd." />
+        <meta charSet="utf-8" />
 
-          <meta property="og:title" content="yodigital b2b website" />
-          <meta property="og:type" content="website" />
-          <meta property="og:url" content="https://localhost:3000/" />
 
-          <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:title" content="yodigital b2b website"/>
+        <meta property="og:type" content="website"/>
+        <meta property="og:url" content="https://localhost:3000/"/>
+  
+        <meta name="twitter:card" content="summary_large_image" />
 
-          <meta property="fb:app_id" content="712557339116053" />
+        <meta property="fb:app_id" content="712557339116053" />
 
-          <meta property="og:site_name" content="yodigital" />
-          <meta name="twitter:site" content="@yodigital" />
+        <meta property="og:site_name" content="yodigital"/>
+        <meta name="twitter:site" content="@yodigital" />
         </Head>
         <div className={s.root}>
-        <h1 className="page-title">
-  Welcome,{" "}
-  {currentUser ? currentUser.firstName || "User" : "User"}
-  ! <br />
-  <small>
-    <small>
-      Your role is{" "}
-      {currentUser && currentUser.role}
-    </small>
-  </small>
-</h1>
+          <h1 className="page-title fw-bold">
+            Welcome,{" "}
+            {this.props.currentUser
+  ? (this.props.currentUser.firstName || "User").substring(0, 8)
+  : "User"}
+            ! <br />
+            <small>
+              <small>
+                Your role is{" "}
+                {this.props.currentUser && this.props.currentUser.role}
+              </small>
+            </small>
+          </h1>
           <Row>
-          <Col lg={3}>
-            <SimpleLine
-              color="#5EC992"
-              title={`${usersData.rows.count}`}
-              subtitle="Total Users Register"
-              value={usersData.rows}
-            />
-          </Col>
-          <Col lg={3}>
-            <SimpleLine
-              color="#CA4155"
-              title={usersData.rows && usersData.rows.length > 0 ? usersData.rows[0].balance : "No data available"}
-              subtitle="Total Dues"
-             
-            />
-          </Col>
-            <Col lg={3}>
-              <SimpleLine
-                color="#D19C48"
-                title="58.8K"
-                subtitle="Revenue Generated"
-              />
+          <Col lg={6}>
+  <SimpleLine color="#5EC992" title="5000" subtitle="Total Dues" />
+</Col>
+            <Col lg={6}>
+              <SimpleLine color="#CA4155" title="84.2K" subtitle="Total Orders" />
+            </Col>
+            {/* <Col lg={3}>
+              <SimpleLine color="#D19C48" title="58.8K" subtitle="Revenue Generated" />
             </Col>
             <Col lg={3}>
-              <SimpleLine
-                color="#4392D5"
-                title="89.3K"
-                subtitle="Revenue Generated"
-              />
-            </Col>
+              <SimpleLine color="#4392D5" title="89.3K" subtitle="Revenue Generated" />
+            </Col> */}
           </Row>
           <Row>
             <Col>
               <div className={s.dashboardWidgetWrapper}>
-                <h3 className={s.widgetMainTitle} style={{ paddingLeft: 25 }}>
-                  Orders
-                </h3>
+                <h3 className={s.widgetMainTitle} style={{ paddingLeft: 25 }}>Orders</h3>
                 <ApexChart
                   className="sparkline-chart"
                   series={splineArea.spline.series}
@@ -119,22 +166,32 @@ const Index = ({ currentUser }) => {
               </div>
             </Col>
           </Row>
-
-          <Row>
+          
+          {/* <Row>
             <Col lg={9}>
               <HomePageWidget />
             </Col>
-          </Row>
+          </Row> */}
         </div>
-    </>
-    );
+        </>
+    )
   }
-  
-  function mapStateToProps(store) {
-    return {
-      currentUser: store.auth.currentUser,
-      loadingInit: store.auth.loadingInit,
-    };
-  }
-  
-  export default connect(mapStateToProps)(withRouter(Index));
+}
+
+function mapStateToProps(store) {
+  return {
+    currentUser: store.auth.currentUser,
+    loadingInit: store.auth.loadingInit,
+  };
+}
+
+export async function getServerSideProps(context) {
+  // const res = await axios.get("/products");
+  // const products = res.data.rows;
+
+  return {
+    props: {  }, // will be passed to the page component as props
+  };
+}
+
+export default connect(mapStateToProps)(withRouter(Index));

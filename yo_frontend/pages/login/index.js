@@ -20,8 +20,10 @@ import jwt from "jsonwebtoken";
 import logo from "public/images/e-commerce/logo.svg";
 import eye from "public/images/e-commerce/login/eye.png";
 import eyeOff from "public/images/e-commerce/login/eye-off.png";
-import PhoneOtpForm from "./otp-input";
+
 import s from "./Login.module.scss";
+
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 class Login extends React.Component {
   static propTypes = {
@@ -36,7 +38,6 @@ class Login extends React.Component {
       email: "",
       password: "",
       otp: "", // Add OTP state
-      phoneNumber: "",
       isOTPMode: false,
       viewPassword: false, // Corrected: added viewPassword to state
     };
@@ -46,7 +47,6 @@ class Login extends React.Component {
     this.changeEmail = this.changeEmail.bind(this);
     this.changePassword = this.changePassword.bind(this);
     this.changeOTP = this.changeOTP.bind(this);
-    this.changePhoneNumber = this.changePhoneNumber.bind(this);
     this.handleOTPSubmit = this.handleOTPSubmit.bind(this);
   }
 
@@ -62,20 +62,15 @@ class Login extends React.Component {
     this.setState({ otp: otp });
   }
 
-  changePhoneNumber(event) {
-    this.setState({ phoneNumber: event.target.value }); // Update phoneNumber state
-  }
-
   doLogin(e) {
     e.preventDefault();
     const { email, password, otp, isOTPMode } = this.state;
     if (isOTPMode) {
       if (otp.trim() !== "") {
-        // Navigate to the account page
-        this.props.router.push("/account");
+        
+        this.props.router.push("/admin/dashboard");
       } 
     } else {
-      // Handle email/password login
       this.props.dispatch(loginUser({ email: email, password: password }));
     }
   }
@@ -84,6 +79,16 @@ class Login extends React.Component {
     // Toggle between email/password mode and OTP mode
     this.setState((prevState) => ({ isOTPMode: !prevState.isOTPMode }));
   }
+
+  changeMobileNumber(event) {
+    const inputValue = event.target.value;
+    if (/^\d{10}$/.test(inputValue)) {
+      
+      this.setState({ mobileNumber: inputValue });
+    } else if (inputValue === '' || /^\d+$/.test(inputValue))   
+      this.setState({ mobileNumber: inputValue });
+    }
+  
 
   handleOTPSubmit(otp) {
     // Check if OTP is valid (for demonstration, consider any non-empty OTP as valid)
@@ -135,28 +140,77 @@ class Login extends React.Component {
               "d-flex flex-column justify-content-center align-items-center h-100"
             }
           >
-            <Container>
+            <Container fluid>
               <Row className={"d-flex justify-content-center"}>
                 <Col lg={8} xs={"auto"}>
-                  <h2 className={"fw-bold mb-5"}>Login</h2>
+                  <h2 className={"fw-bold mb-5"}>Retailer Login</h2>
                   <Form className={"w-100"} onSubmit={this.doLogin}>
+                  {/* <FormGroup>
+                          <Label for="contact" className="fw-bold">
+                            Registered Mobile
+                          </Label>
+                          <Input
+                            type="contact"
+                            name="contact"
+                            id="contact"
+                            className="w-50"
+                            placeholder="Registered Mobile"
+                            value={this.state.email}
+                            onChange={this.changeEmail}
+                            required
+                          />
+                        </FormGroup> */}
                     {/* Render OTP field only in OTP mode */}
                     {isOTPMode ? (
+                      <>
+<FormGroup>
+  <Label for="mobileNumber" className="fw-bold">
+    Mobile Number
+  </Label>
+  <div className="position-relative d-flex">
+  <Input
+  type="tel" // Change type to "tel" for mobile number input
+  name="mobileNumber"
+  id="mobileNumber"
+  className="w-60 pr-5" // Added padding to accommodate the button
+  placeholder="Registered Number"
+  value={this.state.mobileNumber} // Use mobileNumber state variable
+  onChange={this.changeMobileNumber} // Update to changeMobileNumber function
+  required
+/>
+
+    <button className={`btn-primary ml-1  ${s.sendOTPButton}`} onClick={this.sendOTP} style={{borderRadius:'25px'}}>
+    <i className="bi bi-arrow-right-circle-fill"></i>
+    </button>
+  </div>
+</FormGroup>
+
                       <FormGroup>
                         <Label for="otp" className="fw-bold">
                           OTP
                         </Label>
-                        <PhoneOtpForm
-                        length={4}
-                        onOtpSubmit={this.handleOTPSubmit}
-                        phoneNumber={this.state.phoneNumber}
-                      />
+                        <OtpInput
+                          inputStyle={{
+                            width: "45px",
+                            height: "45px",
+                            fontSize: "20px",
+                            margin: "5px",
+                          }}
+                          value={this.state.otp}
+                          onChange={this.changeOTP}
+                          numInputs={4}
+                          renderSeparator={<span>-</span>}
+                          renderInput={(props) => <input {...props} />}
+                        />
                       </FormGroup>
+                      
+                      </>
+
                     ) : (
                       <>
                         <FormGroup>
                           <Label for="email" className="fw-bold">
-                            Email
+                            Username or Email
                           </Label>
                           <Input
                             type="email"
@@ -195,40 +249,53 @@ class Login extends React.Component {
                         </FormGroup>
                       </>
                     )}
-                    <div
-                      className={
-                        "d-flex justify-content-between align-items-center mt-5"
-                      }
-                    >
-                      <Button
-                        color={"primary"}
-                        className={`${s.button} fw-bold text-uppercase`}
-                        type="submit"
-                      >
-                        {isOTPMode ? "Verify OTP" : "Login"}
-                      </Button>
-                      {!isOTPMode && (
-                        <Button
-                          color={"secondary"}
-                          className={`${s.button}  text-uppercase`}
-                          onClick={this.toggleMode}
-                        >
-                          Login with OTP
-                        </Button>
-                      )}
-                    </div>
+                   <div className={"d-flex justify-content-between align-items-center mt-5"}>
+  {isOTPMode ? (
+    <>
+      <Button
+        color={"primary"}
+        style={{ width: "45%", borderRadius: '12px' }}
+        className={`${s.button} fw-bold text-uppercase`}
+        type="submit"
+      >
+        Verify
+      </Button>
+      
+    </>
+  ) : (
+    <>
+      <Button
+        color={"primary"}
+        style={{ width: "45%", borderRadius: '12px' }}
+        className={`${s.button} fw-bold text-uppercase`}
+        type="submit"
+      >
+        Login
+      </Button>
+      <Button
+        color={"secondary"}
+        style={{ width: "60%", borderRadius: '12px' }}
+        className={`${s.button}  text-uppercase fw-bold ml-2`}
+        onClick={this.toggleMode}
+      >
+        OTP
+      </Button>
+    </>
+  )}
+</div>
+
                   </Form>
                   <footer
                     className={`d-flex justify-content-between ${s.footer}`}
                   >
-                    <Link href={"#"} className={"fw-bold text-dark"}>
+                    <Link href={"/terms"} className={"fw-bold text-dark"}>
                       Terms & Conditions
                     </Link>
-                    <Link href={"#"} className={"fw-bold text-dark"}>
+                    {/* <Link href={"/reset"} className={"fw-bold text-dark"}>
+                      Forget Password?
+                    </Link> */}
+                    <Link href={"/terms"} className={"fw-bold text-dark"}>
                       Privacy Policy
-                    </Link>
-                    <Link href={"/forgot"} className={"fw-bold text-dark"}>
-                      Forgot password
                     </Link>
                   </footer>
                 </Col>

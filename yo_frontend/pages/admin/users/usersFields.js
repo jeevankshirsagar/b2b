@@ -17,7 +17,7 @@ export const usersFields = {
     ],
   },
   disabled: { type: "boolean", label: "Disabled" },
-  avatar: { type: "images", label: "Avatar" },
+  avatar: { type: "images", label: "Profile Image" },
   password: { type: "string", label: "Password" },
   emailVerified: { type: "boolean", label: "emailVerified" },
   emailVerificationToken: { type: "string", label: "emailVerificationToken" },
@@ -36,6 +36,7 @@ export const usersFields = {
   cin: { type: "string", label: "cin"},
    gst: { type: "string", label: "gst" },
   balance: { type: "string", label: "balance"},
+  duedate: { type: "datetime", label: "duedate"},
   aadhar: { type: "string", label: "aadhar" },
   aadhar_url: { type: "string", label: "aadhar_url"},
   aadhar_back_url: { type: "string", label: "aadhar_back_url"},
@@ -50,8 +51,8 @@ const Component = () => {
 }
 
 export async function getServerSideProps(context) {
-  // const res = await axios.get("/products");
-  // const products = res.data.rows;
+  // const res = await axios.get("/users");
+  // const users = res.data.rows;
 
   return {
     props: {  }, // will be passed to the page component as props

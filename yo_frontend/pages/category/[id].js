@@ -109,15 +109,14 @@ const Index = ({ categoryId, categoryData }) => {
   }, [categoryName, categoryId]);
 
 
-
-  const addToCart = (id) => {
+  const addToCart = (id, quantity = 1) => {
     if (currentUser) {
       axios.post(`/orders/`, {
         data: {
-          amount: 1,
+          amount: quantity,
           order_date: new Date(),
           product: id,
-          status: "in cart",
+          status: "ordered",
           user: currentUser.id,
         },
       });
@@ -128,13 +127,14 @@ const Index = ({ categoryId, categoryData }) => {
         JSON.parse(localStorage.getItem("products"))) ||
       [];
     localProducts.push({
-      amount: 1,
+      amount: quantity,
       order_date: new Date(),
       product: id,
-      status: "in cart",
+      status: "ordered",
     });
     typeof window !== "undefined" &&
       localStorage.setItem("products", JSON.stringify(localProducts));
+    dispatchStore(productsListActions.doAdd(localProducts))
   };
 
   const addToWishlist = (id) => {

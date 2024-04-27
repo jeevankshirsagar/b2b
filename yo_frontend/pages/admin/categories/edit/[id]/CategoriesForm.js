@@ -62,7 +62,7 @@ class CategoriesForm extends Component {
 
                 <InputFormItem name={"keywords"} schema={categoriesFields} />
 
-                <InputFormItem name={"meta_author"} schema={categoriesFields} />
+                {/* <InputFormItem name={"meta_author"} schema={categoriesFields} />
 
                 <InputFormItem name={"meta_og_title"} schema={categoriesFields} />
 
@@ -74,7 +74,7 @@ class CategoriesForm extends Component {
 
                 <InputFormItem name={"meta_og_sitename"} schema={categoriesFields} />
 
-                <InputFormItem name={"post_twitter"} schema={categoriesFields} />
+                <InputFormItem name={"post_twitter"} schema={categoriesFields} /> */}
 
                 <div className="form-buttons">
                   <button

@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Container, Row, Col } from 'reactstrap'
 
-import styles from '../../pages/blog/Blog.module.scss';
+import styles from '../../pages/announcement/Blog.module.scss';
 
 export default function CompanyDetails() {
     

@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from "react";
-import s from "./Login.module.scss";
 
-const PhoneOtpForm = ({ length = 4, onOtpSubmit = () => {}, phoneNumber = "" }) => {
+import {useEffect, useRef, useState} from "react";
+import s from './Login.module.scss';
+
+const PhoneOtpForm = ({length = 4, onOtpSubmit = () => {}}) => {
   const [otp, setOtp] = useState(new Array(length).fill(""));
   const inputRefs = useRef([]);
 
@@ -52,35 +53,23 @@ const PhoneOtpForm = ({ length = 4, onOtpSubmit = () => {}, phoneNumber = "" }) 
   };
 
   return (
-    <div className={`${s.otpInputc}`}>
-      <div className={s.phoneNumberInput}>
-        <label htmlFor="phoneNumber">Phone Number:</label>
-        <div>
+    <div className={s.otpInputRow}> {/* Use the otpInputRow class */}
+    {otp.map((value, index) => {
+      return (
         <input
-          type="tel"
-          id="phoneNumber"
-          value={phoneNumber}
-          onChange={(e) => console.log(e.target.value)} // Add logic to handle phone number change
+          key={index}
+          type="text"
+          ref={(input) => (inputRefs.current[index] = input)}
+          value={value}
+          onChange={(e) => handleChange(index, e)}
+          onClick={() => handleClick(index)}
+          onKeyDown={(e) => handleKeyDown(index, e)}
+          className={`${s.otpInput}`}
         />
-        </div>
-      </div>
-      <div className={s.otpInputRow}>
-        {otp.map((value, index) => (
-          <input
-            key={index}
-            type="text"
-            ref={(input) => (inputRefs.current[index] = input)}
-            value={value}
-            onChange={(e) => handleChange(index, e)}
-            onClick={() => handleClick(index)}
-            onKeyDown={(e) => handleKeyDown(index, e)}
-            className={`${s.otpInput}`}
-          />
-        ))}
-      </div>
-    </div>
+      );
+    })}
+  </div>
   );
 };
-
 
 export default PhoneOtpForm;

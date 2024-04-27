@@ -17,10 +17,19 @@ import arrowRight from "../../public/images/e-commerce/home/arrow-right.svg";
 import rating from "../../public/images/e-commerce/details/stars.svg";
 import productsListActions from "../../redux/actions/products/productsListActions";
 
+
+function truncateString(str, maxLength) {
+  if (str.length <= maxLength) {
+    return str;
+  }
+  return str.slice(0, maxLength) + '...';
+}
+
 let categoriesList = [],
   brandsList = [];
 
 const Index = () => {
+  
   const [quantity, setQuantity] = React.useState(1);
   const dispatchStore = useDispatch()
   const [rangeValue, setRangeValue] = React.useState({
@@ -117,7 +126,7 @@ const Index = () => {
           amount: 1,
           order_date: new Date(),
           product: id,
-          status: "in cart",
+          status: "ordered",
           user: currentUser.id,
         },
       });
@@ -131,7 +140,7 @@ const Index = () => {
       amount: 1,
       order_date: new Date(),
       product: id,
-      status: "in cart",
+      status: "ordered",
     });
     typeof window !== "undefined" &&
       localStorage.setItem("products", JSON.stringify(localProducts));
@@ -219,10 +228,10 @@ const Index = () => {
         <meta property="og:site_name" content="yodigital"/>
         <meta name="twitter:site" content="@yodigital" />
       </Head>
-      <Container className={"mb-5"} style={{ marginTop: 32 }}>
+      <Container fluid className={"mb-5"} style={{ marginTop: 32 }}>
         <Row>
           <ToastContainer />
-          <Col sm={3} className={`${s.filterColumn} ${showFilter ? s.showFilter : ''}`}>
+          <Col sm={3} className={`${s.filterColumn} ${showFilter ? s.showFilter : ''}`} style={{backgroundColor: '#fff', padding: '15px', borderRadius: '12px', boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px', height:"auto" }}>
             <div className={s.filterTitle}><h5 className={"fw-bold mb-5 text-uppercase"}>Categories</h5><span onClick={() => setShowFilter(false)}>✕</span></div>
             <div className={"d-flex align-items-center"}>
               <Checkbox
@@ -243,7 +252,7 @@ const Index = () => {
                   <p className={"d-inline-block ml-1 mb-0"}>Mobile</p>
                 }
                 onChange={() =>
-                  filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc711")
+                  filterByCategory("176953fe-2180-470d-a64d-efac0a367d12")
                 }
                 style={{marginTop: -1}}
               />
@@ -267,7 +276,7 @@ const Index = () => {
                     <p className={"d-inline-block ml-1 mb-0"}>Camera</p>
                   }
                   onChange={() =>
-                      filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc712")
+                      filterByCategory("4e79cdda-a98e-43cb-bf00-c7d6ad87d2f4")
                   }
                   style={{marginTop: -1}}
               />
@@ -291,7 +300,7 @@ const Index = () => {
                     <p className={"d-inline-block ml-1 mb-0"}>Camcorder</p>
                   }
                   onChange={() =>
-                      filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc713")
+                      filterByCategory("475ae017-5d38-4a2b-93bb-7a3c3869faf9")
                   }
                   style={{marginTop: -1}}
               />
@@ -315,7 +324,7 @@ const Index = () => {
                     <p className={"d-inline-block ml-1 mb-0"}>TV</p>
                   }
                   onChange={() =>
-                      filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc714")
+                      filterByCategory("ff07f133-93ba-42d0-bb52-78481d660ccf")
                   }
                   style={{marginTop: -1}}
               />
@@ -339,7 +348,7 @@ const Index = () => {
                     <p className={"d-inline-block ml-1 mb-0"}>Tripods</p>
                   }
                   onChange={() =>
-                      filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc715")
+                      filterByCategory("c75bd533-d4a9-45d8-938b-a2a0dabd64dd")
                   }
                   style={{marginTop: -1}}
               />
@@ -363,7 +372,7 @@ const Index = () => {
                     <p className={"d-inline-block ml-1 mb-0"}>Gimbals</p>
                   }
                   onChange={() =>
-                      filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc716")
+                      filterByCategory("68ba925f-7080-442c-844e-fab348aa3511")
                   }
                   style={{marginTop: -1}}
               />
@@ -387,7 +396,7 @@ const Index = () => {
                     <p className={"d-inline-block ml-1 mb-0"}>Earpods</p>
                   }
                   onChange={() =>
-                      filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc717")
+                      filterByCategory("e8b5de9c-2b35-4b70-81b4-27d0739a8d73")
                   }
                   style={{marginTop: -1}}
               />
@@ -411,22 +420,13 @@ const Index = () => {
                     <p className={"d-inline-block ml-1 mb-0"}>Powerbanks</p>
                   }
                   onChange={() =>
-                      filterByCategory("1fcb7ece-6373-405d-92ef-3f3c4e7dc718")
+                      filterByCategory("78653e70-bf87-4c6b-8923-02b4c2e7ebe4")
                   }
                   style={{marginTop: -1}}
               />
             </div>
-            {/* <h5 className={"fw-bold mb-5 mt-5 text-uppercase"}>Price</h5> */}
-            {/* <p>Price Range: INR 0 - INR 150000</p> */}
-            {/* <InputRange
-              maxValue={150000}
-              minValue={0}
-              formatLabel={(rangeValue) => `${rangeValue} INR`}
-              value={rangeValue}
-              onChange={(value) => setRangeValue(value)}
-            /> */}
-
-            <h5 className={"fw-bold mb-5 mt-5 text-uppercase"}>Brands</h5>
+            
+            {/* <h5 className={"fw-bold mb-5 mt-5 text-uppercase"}>Brands</h5>
             <div className={"d-flex align-items-center"}>
               <Checkbox
                   borderColor={"#232323"}
@@ -546,7 +546,7 @@ const Index = () => {
                   }
                   style={{marginTop: -1}}
               />
-            </div>
+            </div> */}
             <h5 className={"fw-bold mb-5 mt-5 text-uppercase"}>
               Availability
             </h5>
@@ -603,7 +603,7 @@ const Index = () => {
             {!(width <= 768) ? (
               <div
                 className={"d-flex justify-content-between align-items-center"}
-                style={{ marginBottom: 50 }}
+                style={{ marginBottom: 0 }}
               >
                 <h6>
                   Showing{" "}
@@ -624,7 +624,7 @@ const Index = () => {
               </div>
             ) : (
               <>
-                <div className={"d-flex justify-content-between"}>
+                <div className={"d-flex justify-content-between"} style={{backgroundColor:"#0000"}}>
                   <Button
                     className={"text-dark bg-transparent border-0"}
                     style={{ padding: "14px 0 22px 0" }}
@@ -632,24 +632,24 @@ const Index = () => {
                   >
                     <img src={filter} /> Filters
                   </Button>
-                  <Button
+                  {/* <Button
                     className={"text-dark bg-transparent border-0"}
                     style={{ padding: "14px 0 22px 0" }}
                   >
                     <img src={relevant} /> Relevant
-                  </Button>
+                  </Button> */}
                 </div>
                 <hr style={{ marginTop: 0, marginBottom: "2rem" }} />
               </>
             )}
             <Row>
               {products.map((item, index) => (
-                <Col md={6} lg={4} xs={12} className={`mb-4 ${s.product}`} key={index}>
+                <Col md={6} lg={3} xs={12} className={`mb-4 ${s.product}`} key={index}>
                   <Modal
                     isOpen={openState[`open${index}`]}
                     toggle={() => dispatch({ type: `open${index}` })}
                   >
-                    <div className={s.modalWidndow}>
+                    <div className={s.modalWidndow}>z
                     <div className={s.image}>
   {item.image && item.image.length > 0 && (
     <img
@@ -716,7 +716,7 @@ const Index = () => {
                               </Button>
                             </div>
                           </div>
-                          <div
+                          {/* <div
                             className={
                               "d-flex flex-column justify-content-between"
                             }
@@ -725,7 +725,7 @@ const Index = () => {
                               Price
                             </h6>
                             <h6 className={"fw-bold"}>{item.price} INR</h6>
-                          </div>
+                          </div> */}
                         </div>
                         <div className={"d-flex mt-5"}>
                           <Button
@@ -758,19 +758,21 @@ const Index = () => {
                       </div>
                     </div>
                   </Modal>
+                  <div style={{backgroundColor: '#fff', padding: '15px', borderRadius: '12px', boxShadow: 'rgba(17, 12, 46, 0.15) 0px 48px 100px 0px' }}>
                   <div style={{ position: "relative" }}>
                     <Link href={`/products/${item.id}`}>
                       <a>
                       <div
   style={{
-    backgroundImage: item.image && item.image.length > 0 ? `url(${item.image[0].publicUrl})` : 'none'
+    backgroundImage: item.image && item.image.length > 0 ? `url(${item.image[0].publicUrl})` : 'none', borderBottom: '1px solid #f2e9e9'
   }}
-  className={s.productImage}
+  className={s.productImage} 
 />
+
                       </a>
                     </Link>
                     <div
-                      className={`d-flex flex-column justify-content-center ${s.product__actions}`}
+                      className={`d-flex flex-column justify-content-center ${s.product__actions}` }
                       style={{
                         position: "absolute",
                         height: "100%",
@@ -778,7 +780,7 @@ const Index = () => {
                         right: 15,
                       }}
                     >
-                      <Button
+                      {/* <Button
                         className={"p-0 bg-transparent border-0"}
                         onClick={() => {
                           addToWishlist(item.id);
@@ -807,7 +809,7 @@ const Index = () => {
                         }}
                       >
                         <div className={`mb-4 ${s.product__actions__cart}`} />
-                      </Button>
+                      </Button> */}
                     </div>
                   </div>
                   <div className={s.productInfo}>
@@ -824,12 +826,13 @@ const Index = () => {
                             className={"fw-bold font-size-base mt-1"}
                             style={{ fontSize: 16 }}
                           >
-                            {item.title}
+                            {truncateString(item.title, 20)}
                           </h6>
                         </a>
                       </Link>
                       {/* <h6 style={{ fontSize: 16 }}>INR {item.price}</h6> */}
                     </div>
+                  </div>
                   </div>
                 </Col>
               ))}

@@ -19,6 +19,7 @@ class Sidebar extends React.Component {
     location: PropTypes.shape({
       pathname: PropTypes.string,
     }),
+    currentUser: PropTypes.object, // Define currentUser prop type
   };
 
   static defaultProps = {
@@ -52,6 +53,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
+    const { currentUser } = this.props;
     return (
         <div ref={this.wrapperRef}
             className={`${
@@ -74,40 +76,15 @@ class Sidebar extends React.Component {
                   link="/"
                   isHeader
               />
+
               <LinksGroup
-                  onActiveSidebarItemChange={(activeItem) =>
-                      this.props.dispatch(changeActiveSidebarItem(activeItem))
-                  }
+                  onActiveSidebarItemChange={activeItem => this.props.dispatch(changeActiveSidebarItem(activeItem))}
                   activeItem={this.props.activeItem}
-                  header="Pages"
-                  link="/pages"
-                  index="pages"
+                  header="Contact"
+                  link="/contact"
                   isHeader
-                  exact={false}
-                  childrenLinks={[
-                    {
-                      header: 'About Us', link: '/about',
-                    },
-                    {
-                      header: 'About Team', link: '/about-team',
-                    },
-                    {
-                      header: 'Contact Us', link: '/contact',
-                    },
-                    {
-                      header: 'FAQ', link: '/faq',
-                    },
-                    {
-                      header: '404', link: '/error',
-                    },
-                    {
-                      header: 'Wishlist', link: '/wishlist',
-                    },
-                    {
-                      header: 'Login', link: '/login',
-                    },
-                  ]}
               />
+
               <LinksGroup
                   onActiveSidebarItemChange={(activeItem) =>
                       this.props.dispatch(changeActiveSidebarItem(activeItem))
@@ -123,37 +100,40 @@ class Sidebar extends React.Component {
                       header: 'Shop', link: '/shop',
                     },
                     {
-                      header: 'Categories', link: '/categories',
-                    },
-                    {
-                      header: 'Account', link: '/account',
+                      header: 'Cart', link: '/cart',
                     },
                   ]}
               />
+
               <LinksGroup
                   onActiveSidebarItemChange={(activeItem) =>
                       this.props.dispatch(changeActiveSidebarItem(activeItem))
                   }
                   activeItem={this.props.activeItem}
-                  header="Blog"
-                  link="/blog"
-                  index="blog"
+                  header="Company"
+                  link="/about"
+                  index="about"
                   isHeader
                   exact={false}
                   childrenLinks={[
                     {
-                      header: 'Blog', link: '/blog',
+                      header: 'About', link: '/about',
                     },
                     {
-                      header: 'Article', link: '/blog/article',
+                      header: 'Announcement', link: '/announcement',
                     },
                   ]}
               />
+              
             </ul>
             <div className={s.accountBtn}>
-              <Link href={"/account  "}>
-                My Account
-              </Link>
+              {currentUser ? (
+                <button onClick={this.doLogout}>Logout</button>
+              ) : (
+                <Link href={"/account"}>
+                  My Account
+                </Link>
+              )}
             </div>
           </nav>
         </div>

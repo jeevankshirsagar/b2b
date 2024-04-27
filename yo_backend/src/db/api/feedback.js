@@ -44,24 +44,126 @@ module.exports = class FeedbackDBApi {
         secure: true,
         auth: {
           user: 'jeevan@exigirtech.com', // Change this to your email address
-          pass: '', // Change this to your email password
+          pass: 'Pass@123', // Change this to your email password
         },
       });
 
       // Send email
       await transporter.sendMail({
         from: 'jeevan@exigirtech.com',
-        to: 'cm.a.55.jeevan.kshirsagar@gmail.com', // Change this to the recipient's email address
+        to: 'jeevan@worldtechsolutions.in', // Change this to the recipient's email address
         subject: 'New B2B Enquiry Form Submission',
         html: `
-            <p>Name: ${formData.name}</p>
-            <p>Contact: ${formData.contact}</p>
-            <p>Email: ${formData.email}</p>
-            <p>Business Name: ${formData.bname}</p>
-            <p>Business GST: ${formData.bgst}</p>
-            <p>Business Address: ${formData.address}</p>
-        `,
-    });
+        <!doctype html>
+        <html>
+        <head>
+          <meta name="viewport" content="width=device-width" />
+          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+          <title>New B2B Enquiry Form Submission</title>
+          <style>
+            /* Your CSS styles for the email template */
+            body {
+              background-color: #f2f2f7;
+              font-family: sans-serif;
+              -webkit-font-smoothing: antialiased;
+              font-size: 15px;
+              line-height: 1.4;
+              margin: 0;
+              padding: 0;
+            }
+            .container {
+              display: block;
+              margin: 0 auto !important;
+              max-width: 580px;
+              padding: 10px;
+              width: 580px;
+            }
+            .image{
+              width: 100%;
+            }
+            .content {
+              box-sizing: border-box;
+              display: block;
+              margin: 0 auto;
+              max-width: 580px;
+              padding: 10px;
+            }
+            h3 {
+              color: #1c1c1e;
+              font-family: sans-serif;
+              font-weight: 400;
+              line-height: 1.5;
+              margin: 0;
+              margin-bottom: 10px;
+            }
+            p {
+              color: #1c1c1e;
+              font-family: sans-serif;
+              font-size: 15px;
+              font-weight: normal;
+              margin: 0;
+              margin-bottom: 15px;
+            }
+            table {
+              border-collapse: collapse;
+              border-spacing: 0;
+              width: 100%;
+            }
+            table td,
+            table th {
+              padding: 8px;
+              text-align: left;
+              vertical-align: top;
+            }
+          </style>
+        </head>
+        <body>
+          <table class="container">
+            <tr>
+              <td>
+              <img class="image" src="https://discover.zestmoney.in/wp-content/uploads/2021/02/apple-LP-banner-2048x850.png">
+                <h1>Customer Information:</h1>
+                <table>
+                  <tr>
+                    <td style="padding-right: 10px;"><strong>Name:</strong></td>
+                    <td>${formData.name}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-right: 10px;"><strong>Email:</strong></td>
+                    <td>${formData.email}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-right: 10px;"><strong>Contact:</strong></td>
+                    <td>${formData.contact}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-right: 10px;"><strong>Business GST:</strong></td>
+                    <td>${formData.bgst}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-right: 10px;"><strong>Business Address:</strong></td>
+                    <td>${formData.address}</td>
+                  </tr>
+                  <tr>
+                    <td style="padding-right: 10px;"><strong>Business Message:</strong></td>
+                    <td>${formData.message}</td>
+                  </tr>
+                  
+                  <hr>
+                  <tr>
+                  <td>
+              A Privacy Policy is a legally required document that discloses your privacy practices, such as what personal information you collect, and how you collect, use and share it.
+A Terms and Conditions agreement is not legally required, but highly recommended. It's a document that outlines the rules, requirements and restrictions for using your website, service or app.
+A Disclaimer gives a short notice to users to be aware of something, while often disclaiming your legal liability.</td></tr>
+                </table>
+              </td>
+              
+            </tr>
+          </table>
+        </body>
+        </html>
+                `,
+              });
 
       console.log('Email sent successfully');
     } catch (error) {

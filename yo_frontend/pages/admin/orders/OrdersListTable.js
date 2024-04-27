@@ -24,6 +24,12 @@ import { BootstrapTable, TableHeaderColumn } from "react-bootstrap-table";
 
 import Widget from "components/admin/Widget";
 
+import 'bootstrap-icons/font/bootstrap-icons.css'
+import UseAnimations from "react-useanimations";
+import trash2 from 'react-useanimations/lib/trash2';
+
+
+
 class OrdersListTable extends Component {
   state = {
     modalOpen: false,
@@ -44,6 +50,48 @@ class OrdersListTable extends Component {
     this.props.dispatch(actions.doCloseConfirm());
   }
 
+
+  exportData = () => {
+  // Gather data and format it for export
+  const { rows } = this.props;
+
+  // Extract only the required columns
+  const dataToExport = rows.map(row => ({
+    "Order Date": row.order_date,
+    "Order No.": row.order_no,
+    "Product": row.product,
+    "Retailer": row.user,
+    "Quantity": row.amount,
+    "Status": row.status
+  }));
+
+  // Convert the extracted data to CSV format
+  const csvContent = "data:text/csv;charset=utf-8," + [
+    Object.keys(dataToExport[0]).join(","), // Header row
+    ...dataToExport.map(row => Object.values(row).join(","))
+  ].join("\n");
+
+  // Create a Blob object from the CSV content
+  const blob = new Blob([csvContent], { type: 'text/csv' });
+
+  // Create a temporary anchor element to download the CSV file
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+
+  // Set the filename for the CSV file
+  link.download = 'orders.csv';
+
+  // Append the anchor element to the document body and click it to trigger the download
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up by removing the temporary anchor element
+  document.body.removeChild(link);
+};
+
+  
+
+  
   actionFormatter(cell) {
     return (
       <div>
@@ -66,8 +114,8 @@ class OrdersListTable extends Component {
           Edit
         </Button>
         &nbsp;&nbsp;
-        <Button color="danger" size="xs" onClick={() => this.openModal(cell)}>
-          Delete
+        <Button color="secondary" size="s" style={{borderRadius: '7px'}} onClick={() => this.openModal(cell)}>
+        <UseAnimations animation={trash2} size={20} style={{ color: 'white' }} />
         </Button>
       </div>
     );
@@ -112,12 +160,18 @@ class OrdersListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4>Orders</h4>} collapse close>
+        <Widget title={<h3 className="fw-bold">Orders</h3>} collapse close>
           <Link href="/admin/orders/new">
-            <button className="btn btn-primary" type="button">
-              New
+            <button className="btn btn-dark" style={{borderRadius: '12px'}} type="button">
+              New Order
             </button>
           </Link>
+
+
+          <Button color="success" className="ms-2" onClick={this.exportData}>
+            Export
+          </Button>
+
           <BootstrapTable
             bordered={false}
             data={rows}
@@ -127,6 +181,7 @@ class OrdersListTable extends Component {
             search
             tableContainerClass={`table-responsive table-striped table-hover`}
           >
+
             <TableHeaderColumn
               dataField="order_date"
               dataSort
@@ -134,6 +189,11 @@ class OrdersListTable extends Component {
             >
               <span className="fs-sm">Order date</span>
             </TableHeaderColumn>
+
+            <TableHeaderColumn dataField="order_no" dataSort>
+              <span className="fs-sm">Order No.</span>
+            </TableHeaderColumn>
+
 
             <TableHeaderColumn
               dataField="product"
@@ -148,7 +208,7 @@ class OrdersListTable extends Component {
               dataSort
               dataFormat={usersDataFormat.listFormatter}
             >
-              <span className="fs-sm">User</span>
+              <span className="fs-sm">Retailer</span>
             </TableHeaderColumn>
 
             <TableHeaderColumn dataField="amount" dataSort>

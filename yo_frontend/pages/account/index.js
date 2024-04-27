@@ -8,9 +8,21 @@ import Login from "pages/login";
 import { logoutUser } from "redux/actions/auth";
 import axios from "axios";
 import dynamic from "next/dynamic";
-const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: true });
+const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: false });
 import { chartData, splineArea } from "../admin/dashboard/chartsMock";
 import sa from "../admin/dashboard/Dashboard.module.scss";
+import alertAnimation from '../../public/animation/alert.json';
+import empty from '../../public/animation/empty.json';
+import Lottie from 'lottie-react';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
+
+
+
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { options } from "toastr";
+        
 
 const Index = () => {
   const currentUser = useSelector((state) => state.auth.currentUser);
@@ -28,7 +40,7 @@ const Index = () => {
   const [settings, setSettings] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/service/", {
+    fetch("http://srv481744.hstgr.cloud:8080/api/service/", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -52,15 +64,21 @@ const Index = () => {
   const fetchOrders = async () => {
     try {
       const response = await axios.get(`/api/orders/${currentUser.id}`);
-      setOrders(response.data.orders);
+      if (response.data && response.data.orders && Array.isArray(response.data.orders)) {
+        setOrders(response.data.orders);
+      } else {
+        console.error("Orders data not found in response:", response);
+      }
     } catch (error) {
       console.error("Error fetching orders:", error);
       // Handle error: Show error message to user or log it for debugging
     } finally {
-      setLoading(false); // Set loading to false regardless of success or failure
+      setLoading(false); // Set loading to false after the request completes (regardless of success or failure)
     }
   };
+  
 
+  
   useEffect(() => {
     if (currentUser) {
       fetchOrders();
@@ -89,17 +107,45 @@ const Index = () => {
   };
 
 
-  const duesDate = new Date("2024-03-20"); // Due date set to 19th March 2024
-  const currentDate = new Date();
 
-  const [showPopup, setShowPopup] = useState(false);
+  
+  const chartData = currentUser ? [
+    { x: "Current Date", y: currentUser.balance } // Assuming this is a single data point
+  ] : [];
 
-  useEffect(() => {
-    if (currentDate >= duesDate) {
-      // Show pop-up indicating that dues date has passed
-      setShowPopup(true);
-    }
-  }, []);
+  const options = {
+    chart: {
+      type: "line",
+      height: "200px",
+      toolbar: {
+        show: false // Hide the toolbar
+      }
+        
+    },
+    yaxis: {
+      min: 0 
+    },
+    
+    
+  };
+
+
+
+  const duesDate = currentUser?.duedate ? new Date(currentUser.duedate) : null;
+const currentDate = new Date();
+const [showPopup, setShowPopup] = useState(false); // Set initial state to false
+const closePopup = () => {
+  setShowPopup(false);
+};
+
+
+
+useEffect(() => {
+  if (duesDate && currentDate > duesDate) {
+    // Show pop-up indicating that dues date has passed
+    setShowPopup(true);
+  }
+}, [duesDate, currentDate]); 
 
 
 
@@ -135,10 +181,14 @@ const Index = () => {
         <>
         {showPopup && (
           <div className={`${s.popup}`}>
-            <div className={`${s.popupcontent}`}>
-              <h2 className={`${s.du}`}>Dues Date Passed</h2>
+            <div className={`${s.popupcontent}`} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+              <Lottie
+              animationData={alertAnimation}
+              style={{ height: "70px", width: "70px" }}
+            />
+              <h2 className={`${s.du }`  }>Dues Date Passed</h2>
               <p className={`${s.po}`}>The dues date has passed.</p>
-              <button onClick={() => setShowPopup(false)} className={`${s.bo}`}>Close</button>
+              <button onClick={closePopup} className={`${s.bo}` } color={"primary"}>Close</button>
             </div>
           </div>
         )}
@@ -147,7 +197,7 @@ const Index = () => {
             className={`account__dashboard position-relative`}
             style={{ marginTop: 80, marginBottom: 80 }}
           >
-            <Container>
+            <Container  fluid style={{width: '80%'}}> 
               <Row>
                 <div
                   className={`col-sm-12 col-lg-4 ${s.dashboard__drawer} ${
@@ -158,20 +208,14 @@ const Index = () => {
                 >
                   <div
                     className={`${s.account__sidebar} account__sidebar`}
-                    style={{ borderRadius: "15px" }}
+                    style={{ borderRadius: "15px" , backgroundColor: '#fff', padding: '25px'}}
                   >
                     <div
                       className={`${s.account__meta_data} account__meta_data`}
-                      style={{ borderRadius: "15px" }}
+                      style={{ marginTop: 30, borderRadius: "15px", backgroundColor: '#fff', padding: '20px', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}
                     >
-                      <h5 className="mb-3 fw-bold">Personal Details</h5>
-                      {/* <span className={`${s.avatar} rounded-circle thumb-sm float-left mr-2`}>
-    {currentUser.avatar ? (
-      <img src={currentUser.avatar} alt="jeevan" />
-    ) : (
-      <span title={currentUser.firstName}>{currentUser.firstName[0]}</span>
-    )}
-  </span> */}
+                       <div className="d-flex justify-content-between mb-2">
+                      <h5 className="mb-3 fw-bold" style={{border: '1px solid #fff'}}>Personal Details</h5><i className="bi bi-person-circle" style={{fontSize:'1.5rem'}}></i></div>
                       <p>{currentUser.firstName}</p>
                       <p>{currentUser.phoneNumber}</p>
                       <p>{currentUser.email}</p>
@@ -179,9 +223,10 @@ const Index = () => {
 
                     <div
                       className={`${s.account__meta_data} account__meta_data`}
-                      style={{ marginTop: 30, borderRadius: "15px" }}
+                      style={{ marginTop: 30, borderRadius: "15px", backgroundColor: '#fff', padding: '20px', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}
                     >
-                      <h5 className="mb-3 fw-bold">Wallet</h5>
+                      <div className="d-flex justify-content-between mb-2">
+                      <h5 className="mb-3 fw-bold" style={{border: '1px solid #fff'}}>Wallet</h5><i className="bi bi-credit-card-2-back-fill" style={{fontSize:'1.5rem'}}></i></div>
                       <div className="d-flex justify-content-between mb-2">
                         {/* {currentUser.balance ? (
                           <p className={"fw-bold"}>{currentUser.balance}</p>
@@ -192,54 +237,64 @@ const Index = () => {
                         {/*dues */}
                         <label>DUES:-</label>
                         {/*price */}
-                        <p className={"fw-bold"}>300</p>
+                        <h2 className={"fw-bold text-seconadary"}>{currentUser.balance}</h2>
 
                         {/* <span>Date</span> */}
                       </div>
                       <div className="d-flex justify-content-between mb-2">
                         <div>
                           {/*date */}
-                          <label>DATE:-</label>
+                          <label>DATE:</label>
                           {/*date */}
-                          <span className={"fw-bold"}>19-3-2024</span>
+                          <span className={"fw-bold "}>{currentUser.duedate}</span>
                         </div>
-                        <span>500</span>
-                        {/* <span>5/4/2024</span> */}
+                      
                       </div>
-                      <div className="d-flex justify-content-between mb-2">
-                        <span>C/N</span>
-                        <span>D/N</span>
-                      </div>
-                      <div className="d-flex justify-content-between">
-                        <span>5000</span>
-                        <span>5000</span>
-                      </div>
+                    
                     </div>
 
                     <div
                       className={`${s.account__meta_data} account__meta_data`}
-                      style={{ marginTop: 30, borderRadius: "15px" }}
+                      style={{ marginTop: 30, borderRadius: "15px", backgroundColor: '#fff', padding: '20px', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}
                     >
-                      <h5 className="mb-3 fw-bold">Company Details</h5>
-                      <p>{currentUser.bname}</p>
-                      <p>{currentUser.baddress}</p>
-                      <p>{currentUser.email}</p>
-                      <p>{currentUser.phoneNumber}</p>
-                      <p>
-                        GST: <span>{currentUser.gst}</span>
-                      </p>
+                    <div className="d-flex justify-content-between mb-2">  <h5 className="mb-3 fw-bold" >Company Details</h5><i className="bi bi-building-fill-check" style={{fontSize:'1.5rem'}}></i></div>
+                      <div>
+                          {/*date */}
+                          <label>Company : </label>
+                          {/*date */}
+                          <span className={"fw-bold"}> {currentUser.bname}</span>
+                        </div>
+                        <div>
+                          {/*date */}
+                          <label>Address : </label>
+                          {/*date */}
+                          <span className={"fw-bold"}> {currentUser.baddress}</span>
+                        </div>
+                                            <div>
+                          {/*date */}
+                          <label>CIN : </label>
+                          {/*date */}
+                          <span className={"fw-bold align-right"}> {currentUser.cin}</span>
+                        </div>
+                      
+                        <div>
+                          {/*date */}
+                          <label>GST : </label>
+                          {/*date */}
+                          <span className={"fw-bold"}> {currentUser.gst}</span>
+                        </div>
                     </div>
 
                     <div
                       className={`${s.account__meta_data} account__meta_data`}
-                      style={{ marginTop: 30, borderRadius: "15px" }}
+                      style={{ marginTop: 30, borderRadius: "15px", backgroundColor: '#fff', padding: '20px', boxShadow: 'rgba(99, 99, 99, 0.2) 0px 2px 8px 0px' }}
                     >
-                      <h5 className="mb-3 fw-bold">Manager</h5>
+                      <div className="d-flex justify-content-between mb-2">  <h5 className="mb-3 fw-bold" >Manager</h5><i className="bi bi-headset" style={{fontSize:'1.5rem'}}></i></div>
                       <p>
-                        Name: <span>John Smith</span>
+                        Name: <span>Omkar</span>
                       </p>
                       <p>
-                        Area: <span>Central Line</span>
+                        Area: <span>Andheri</span>
                       </p>
                     </div>
 
@@ -264,7 +319,7 @@ const Index = () => {
                   }`}
                   style={{ borderRadius: "10px", backgroundColor: "#d5ecfa" }}
                 >
-                  <div className="account__details">
+                  <div className="account__details mt-5">
                     <div className="account__details_in d-flex justify-content-between align-center pb-3">
                       <h3 className={"fw-bold mb-4 mb-md-0 p-3"}>My Account</h3>
                       <button
@@ -301,7 +356,7 @@ const Index = () => {
                     </div>
 
                     {loading ? (
-                      <p>Loading...</p>
+                      <span></span>
                     ) : (
                       <section className={`${s.promo1} ${s.promoUpdated}`}>
                         {settings.map((seting) => (
@@ -352,10 +407,10 @@ const Index = () => {
                             </h3>
                             <ApexChart
                               className="sparkline-chart"
-                              series={splineArea.spline.series}
-                              options={splineArea.spline.options}
-                              type={"area"}
-                              height={"350px"}
+                              series={[{ data: chartData }]} 
+                              options={options}
+                              type={"line"}
+                              height={"200px"}
                             />
                           </div>
                         </Col>
@@ -363,155 +418,44 @@ const Index = () => {
                     </div>
 
                     <Row>
-                      <Col sm={12} style={{ overflow: "auto", marginTop: 30 }}>
-                        <h3 className={"fw-bold mb-4"}>Orders</h3>
+  <Col sm={12} style={{ overflow: "auto", marginTop: 30 }}>
+    <h3 className={"fw-bold mb-4"}>Orders</h3>
 
-                        {orders.length > 0 ? (
-                          <Table className={s.accountTable} borderless>
-                            <thead>
-                              <tr style={{ borderBottom: "1px solid #D9D9D9" }}>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Date
-                                </th>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Product
-                                </th>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Status
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {orders.length > 0 ? (
-                                orders.map((order) => (
-                                  <tr key={order.id}>
-                                    <td>{order.date}</td>
-                                    <td>{order.product}</td>
-                                    <td>{order.status}</td>
-                                  </tr>
-                                ))
-                              ) : (
-                                <tr>
-                                  <td colSpan="3">No orders found.</td>
-                                </tr>
-                              )}
-                            </tbody>
-                          </Table>
-                        ) : (
-                          <p>No orders found.</p>
-                        )}
+    {orders.length > 0 ? (
+      <Table className={s.accountTable} borderless>
+        <thead>
+          <tr style={{ borderBottom: "1px solid #D9D9D9" }}>
+            <th className={"bg-transparent text-dark px-0"}>
+              Date
+            </th>
+            <th className={"bg-transparent text-dark px-0"}>
+              Product
+            </th>
+            <th className={"bg-transparent text-dark px-0"}>
+              Status
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {orders.map((order) => (
+            <tr key={order.id}>
+              <td>{order.date}</td>
+              <td>{order.product}</td>
+              <td>{order.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </Table>
+    ) : (
+    <div style={{ width: '100%', height: '300px', alignContent: 'center'}}><Lottie
+      animationData={empty}
+      style={{ height: "200px", width: "100%" }}
+      
+    /><p>No orders found </p></div>
+    )}
+  </Col>
+</Row>
 
-                        {orders.length > 0 ? (
-                          <Table className={s.accountTable} borderless>
-                            <thead>
-                              <tr style={{ borderBottom: "1px solid #D9D9D9" }}>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Date
-                                </th>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Product
-                                </th>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Status
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {orders.map((order) => (
-                                <tr key={order.id}>
-                                  <td>{order.date}</td>
-                                  <td>{order.product}</td>
-                                  <td>{order.status}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </Table>
-                        ) : (
-                          <p className="d-none">No orders found.</p>
-                        )}
-                      </Col>
-
-                      <Col sm={12} style={{ overflow: "auto", marginTop: 30 }}>
-                        <h3 className={"fw-bold mb-4"}>Transactions</h3>
-
-                        <Table className={s.accountTable} borderless>
-                          <thead>
-                            <tr style={{ borderBottom: "1px solid #D9D9D9" }}>
-                              <th className={"bg-transparent text-dark px-0"}>
-                                Order ID
-                              </th>
-                              <th className={"bg-transparent text-dark px-0"}>
-                                Status
-                              </th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>
-                                Order #0001
-                                <span className={s.transaction__status}>
-                                  Debit
-                                </span>
-                              </td>
-                              <td>
-                                <p>5000</p>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                Order #0002
-                                <span className={s.transaction__status}>
-                                  Credit
-                                </span>
-                              </td>
-                              <td>
-                                <p>8000</p>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                Order #0003
-                                <span className={s.transaction__status}>
-                                  Debit
-                                </span>
-                              </td>
-                              <td>
-                                <p>120000</p>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </Table>
-
-                        {orders.length > 0 ? (
-                          <Table className={s.accountTable} borderless>
-                            <thead>
-                              <tr style={{ borderBottom: "1px solid #D9D9D9" }}>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Date
-                                </th>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Product
-                                </th>
-                                <th className={"bg-transparent text-dark px-0"}>
-                                  Status
-                                </th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {orders.map((order) => (
-                                <tr key={order.id}>
-                                  <td>{order.date}</td>
-                                  <td>{order.product}</td>
-                                  <td>{order.status}</td>
-                                </tr>
-                              ))}
-                            </tbody>
-                          </Table>
-                        ) : (
-                          <p className="d-none">No orders found.</p>
-                        )}
-                      </Col>
-                    </Row>
                   </div>
                 </div>
               </Row>
@@ -519,7 +463,7 @@ const Index = () => {
           </Col>
 
           <div className="d-none">
-            <Container className={"mb-5"} style={{ marginTop: 32 }}>
+            <Container fluid className={"mb-5"} style={{ marginTop: 32 }}>
               <Row>
                 <Col xl={8} lg={8} xs={12}>
                   <h3 className={"fw-bold mb-4"}>My Account</h3>
@@ -594,7 +538,7 @@ const Index = () => {
                       </div>
                       <div className={"d-flex flex-column align-items-center"}>
                         <h6 className={"fw-bold text-muted text-uppercase"}>
-                          Order
+                          Order History
                         </h6>
                         <p className={"fw-bold"}>0</p>
                       </div>
@@ -641,6 +585,7 @@ const Index = () => {
                     <div className={"py-5"} style={{ borderRadius: "25px" }}>
                       <Button
                         style={{ width: "100%" }}
+                        className={"fw-bold"}
                         color={"primary"}
                         onClick={doLogout}
                       >

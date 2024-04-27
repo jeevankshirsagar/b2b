@@ -41,7 +41,8 @@ class BlogsForm extends Component {
       return "Edit My Profile";
     }
 
-    return this.props.isEditing ? "Edit blogs" : "Add blogs";
+    return this.props.isEditing ? "Edit Update" : "Add Update";
+
   };
 
   renderForm() {
@@ -67,7 +68,7 @@ class BlogsForm extends Component {
                   max={undefined}
                 />
 
-                <ImagesFormItem
+                {/* <ImagesFormItem
                   name={"blog_image_one"}
                   schema={blogsFields}
                   path={"blogs/image"}
@@ -109,99 +110,17 @@ class BlogsForm extends Component {
                     formats: undefined,
                   }}
                   max={undefined}
-                />
+                /> */}
 
                 <InputFormItem name={"title"} schema={blogsFields} />
 
                 <InputFormItem name={"author_name"} schema={blogsFields} />
 
-                <TextAreaFormItem
-                  name={"epigraph"}
-                  schema={blogsFields}
-                />
+                
                 <TextAreaFormItem
                   name={"first_paragraph"}
                   schema={blogsFields}
                 />
-                <TextAreaFormItem
-                  name={"second_paragraph"}
-                  schema={blogsFields}
-                />
-                <TextAreaFormItem
-                  name={"third_paragraph"}
-                  schema={blogsFields}
-                />
-                <TextAreaFormItem
-                  name={"fourth_paragraph"}
-                  schema={blogsFields}
-                />
-                <TextAreaFormItem
-                  name={"fifth_paragraph"}
-                  schema={blogsFields}
-                />
-                <InputFormItem name={"blog_image_one_annotation"} schema={blogsFields} />
-                <InputFormItem name={"blog_image_two_annotation"} schema={blogsFields} />
-                <InputFormItem name={"blog_image_three_annotation"} schema={blogsFields} />
-                <InputFormItem name={"blog_image_four_annotation"} schema={blogsFields} />
-                <InputFormItem name={"blog_image_five_annotation"} schema={blogsFields} />
-
-                <InputFormItem name={"point_one_title"} schema={blogsFields} />
-                <TextAreaFormItem
-                  name={"point_one_description"}
-                  schema={blogsFields}
-                />
-                <InputFormItem name={"point_two_title"} schema={blogsFields} />
-                <TextAreaFormItem
-                  name={"point_two_description"}
-                  schema={blogsFields}
-                />
-                <InputFormItem name={"point_three_title"} schema={blogsFields} />
-                <TextAreaFormItem
-                  name={"point_three_description"}
-                  schema={blogsFields}
-                />
-                <InputFormItem name={"point_four_title"} schema={blogsFields} />
-                <TextAreaFormItem
-                  name={"point_four_description"}
-                  schema={blogsFields}
-                />
-                <InputFormItem name={"point_five_title"} schema={blogsFields} />
-                <TextAreaFormItem
-                  name={"point_five_description"}
-                  schema={blogsFields}
-                />
-                <CategoriesAutocompleteFormItem
-                  name={"categories"}
-                  schema={blogsFields}
-                  showCreate={!this.props.modal}
-                  mode="multiple"
-                />
-
-                <BlogsAutocompleteFormItem
-                  name={"more_blogs"}
-                  schema={blogsFields}
-                  showCreate={!this.props.modal}
-                  mode="multiple"
-                />
-
-                <InputFormItem name={"meta_description"} schema={blogsFields} />
-
-                <InputFormItem name={"keywords"} schema={blogsFields} />
-
-                <InputFormItem name={"meta_author"} schema={blogsFields} />
-
-                <InputFormItem name={"meta_og_title"} schema={blogsFields} />
-
-                <InputFormItem name={"meta_og_url"} schema={blogsFields} />
-
-                <InputFormItem name={"meta_og_image"} schema={blogsFields} />
-
-                <InputFormItem name={"meta_fb_id"} schema={blogsFields} />
-
-                <InputFormItem name={"meta_og_sitename"} schema={blogsFields} />
-
-                <InputFormItem name={"post_twitter"} schema={blogsFields} />
-
                 <RadioFormItem name={"status"} schema={blogsFields} />
 
                 <div className="form-buttons">

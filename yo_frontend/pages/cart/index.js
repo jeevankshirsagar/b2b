@@ -8,12 +8,10 @@ import axios from "axios";
 import Head from "next/head";
 import { toast, ToastContainer } from "react-toastify";
 
-
 const Index = () => {
   const currentUser = useSelector((store) => store.auth.currentUser);
   const [products, setProducts] = React.useState([]);
   const [totalPrice, setTotalPrice] = React.useState(0);
-  const [test, setTest] = React.useState(false);
 
   React.useEffect(() => {
     if (currentUser) {
@@ -75,7 +73,7 @@ const Index = () => {
           data: {
             product: product.id,
             amount: product.amount,
-            status: "in cart",
+            status: "ordered",
             user: currentUser.id,
           },
           id: currentUser.id,
@@ -108,7 +106,7 @@ const Index = () => {
           data: {
             product: product.id,
             amount: product.amount,
-            status: "in cart",
+            status: "ordered",
             user: currentUser.id,
           },
           id: currentUser.id,
@@ -136,28 +134,25 @@ const Index = () => {
           ...currentUser,
           wishlist: [],
         },
-      })
-      .then(() => {
-        setTest(true);
-        toast.success("Product successfully removed");
-      })
-      .catch((error) => {
-        console.error("Error removing product:", error);
-        toast.error("Failed to remove product");
       });
+      setTest(true);
     } else if (typeof window !== "undefined") {
-      try {
-        const newProducts = products.filter((item) => item.id !== id);
-        localStorage.setItem("products", JSON.stringify(newProducts));
-        setProducts(newProducts);
-        toast.success("Product successfully removed");
-      } catch (error) {
-        console.error("Error removing product:", error);
-        toast.error("Failed to remove product");
-      }
+      let count = 0;
+      // localStorage.removeItem("products")
+      // const products = JSON.parse(localStorage.getItem("products"));
+      // setProducts(products)
+      const newProducts = products.filter((item) => {
+        if (item.id === id) {
+          if (count >= 1) return true;
+          count += 1;
+          return false;
+        }
+        return true;
+      });
+      localStorage.setItem("products", JSON.stringify(newProducts));
+      setProducts(newProducts);
     }
   };
-  
 
   return (
     <Container>
@@ -192,7 +187,7 @@ const Index = () => {
               <tr style={{ borderBottom: "1px solid #D9D9D9" }}>
                 <th className={"bg-transparent text-dark px-0"}>Product</th>
                 <th className={"bg-transparent text-dark px-0"}>Quantity</th>
-                {/* <th className={"bg-transparent text-dark px-0"}>Price</th> */}
+                <th className={"bg-transparent text-dark px-0"}>Price</th>
               </tr>
             </thead>
             <tbody>
@@ -226,7 +221,7 @@ const Index = () => {
                           >
                             -
                           </Button>
-                          {/* <p className={"fw-bold mb-0"}>{item.amount}</p> */}
+                          <p className={"fw-bold mb-0"}>{item.amount}</p>
                           <Button
                             className={`${s.quantityBtn} bg-transparent border-0 p-1 fw-bold ml-3`}
                             onClick={() => increaseQuantity(index)}
@@ -235,9 +230,9 @@ const Index = () => {
                           </Button>
                         </div>
                       </td>
-                      {/* <td className={"px-0 pt-4"}>
+                      <td className={"px-0 pt-4"}>
                         <h6 className={"fw-bold mb-0"}>{item.price}$</h6>
-                      </td> */}
+                      </td>
                       <td className={"px-0 pt-4"}>
                         <Button
                           className={"bg-transparent border-0 p-0"}
@@ -259,10 +254,10 @@ const Index = () => {
         <Col xs={12} lg={4}>
           <section className={s.cartTotal}>
             <h2 className={"fw-bold mb-5"}>Cart Total</h2>
-            {/* <div className={"d-flex"}>
+            <div className={"d-flex"}>
               <h6 className={"fw-bold mr-5 mb-0"}>Subtotal:</h6>
               <h6 className={"fw-bold mb-0"}>{totalPrice}$</h6>
-            </div> */}
+            </div>
             <hr className={"my-4"} />
             <div className={"d-flex"}>
               <h6 className={"fw-bold mr-5 mb-0"}>Shipping:</h6>
@@ -274,12 +269,12 @@ const Index = () => {
               </div>
             </div>
             <hr className={"my-4"} />
-            {/* <div className={"d-flex"}>
+            <div className={"d-flex"}>
               <h5 className={"fw-bold"} style={{ marginRight: 63 }}>
                 Total:
               </h5>
               <h5 className={"fw-bold"}>{totalPrice}$</h5>
-            </div> */}
+            </div>
             <Link href={"/billing"}>
               <Button
                 color={"primary"}

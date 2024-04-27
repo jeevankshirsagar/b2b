@@ -81,7 +81,7 @@ const BreadcrumbHistory = ({ url, key }) => {
           tag="nav"
           listTag="div"
           style={{
-            marginTop: router.pathname.includes("admin") ? 0 : (route.length > 1 ? 85 : 60),
+            marginTop: router.pathname.includes(" ") ? 0 : (route.length > 1 ? 85 : 60),
             borderBottom: route.length > 1 && "1px solid #d9d9d9",
             marginBottom: router.pathname.includes("admin") ? 32 : 0,
           }}

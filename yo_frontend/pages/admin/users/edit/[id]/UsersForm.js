@@ -54,12 +54,12 @@ class UsersForm extends Component {
           render={(form) => {
             return (
               <form onSubmit={form.handleSubmit}>
-                <ProductsAutocompleteFormItem
+                {/* <ProductsAutocompleteFormItem
                   name={"wishlist"}
                   schema={usersFields}
                   showCreate={!this.props.modal}
                   mode="multiple"
-                />
+                /> */}
 
                 <InputFormItem name={"firstName"} schema={usersFields} />
 
@@ -70,6 +70,12 @@ class UsersForm extends Component {
                 <InputFormItem name={"email"} schema={usersFields} />
 
                 <InputFormItem name={"balance"} schema={usersFields} />
+
+                
+                {/* <DatePickerFormItem
+                  name={"duedate"}
+                  schema={usersFields}
+                /> */}
 
                 <RadioFormItem name={"role"} schema={usersFields} />
 

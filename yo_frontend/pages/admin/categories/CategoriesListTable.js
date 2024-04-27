@@ -3,6 +3,8 @@ import React, { Component } from "react";
 import Link from 'next/link'
 import { connect } from "react-redux";
 import { withRouter } from 'next/router';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 import {
   Dropdown,
@@ -63,8 +65,9 @@ class CategoriesListTable extends Component {
           Edit
         </Button>
         &nbsp;&nbsp;
-        <Button color="danger" size="xs" onClick={() => this.openModal(cell)}>
-          Delete
+        <Button color="danger" size="s" style={{borderRadius: '7px'}} onClick={() => this.openModal(cell)}>
+        <i className={"bi bi-trash-fill"}></i>
+
         </Button>
       </div>
     );
@@ -109,10 +112,10 @@ class CategoriesListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4>Categories</h4>} collapse close>
+        <Widget title={<h3 className="fw-bold">Categories</h3>} collapse close>
           <Link href="/admin/categories/new">
-            <button className="btn btn-primary" type="button">
-              New
+            <button className="btn btn-dark fw-bold " style={{ borderRadius: '10px'}} type="button">
+            <i className="bi bi-plus" ></i>Add Category
             </button>
           </Link>
           <BootstrapTable

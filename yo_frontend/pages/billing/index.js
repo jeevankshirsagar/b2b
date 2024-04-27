@@ -13,10 +13,10 @@ const Index = () => {
         <div className={`${s.form} mt-4`}>
           <h3 className={"fw-bold mb-0"}>Order Placed Successfully</h3>
           <div style={{ width: 200, height: 200, margin: "0 auto" }}>
-            {/* <Lottie
+            <Lottie
               animationData={confirmedAnimation}
               style={{ height: "100%", width: "100%" }}
-            /> */}
+            />
           </div>
           <div>
             <p>We Got your order Securely</p>

@@ -98,7 +98,7 @@ export function loginUser(creds) {
           const token = res.data;
           dispatch(receiveToken(token));
           dispatch(doInit());
-          if (typeof window !== 'undefined') { window.location.href = "/account" } 
+          if (typeof window !== 'undefined') { window.location.href = "/admin/dashboard" } 
         })
         .catch((err) => {
           console.log(err.response);

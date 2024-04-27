@@ -31,6 +31,7 @@ import {
 } from "redux/actions/navigation";
 
 import s from "./Header.module.scss";
+// import Avatar from "public/images/e-commerce/avatar.svg"
 
 class Header extends React.Component {
   static propTypes = {
@@ -62,8 +63,10 @@ class Header extends React.Component {
 
   doLogout() {
     this.props.dispatch(logoutUser());
-    this.props.router.push('/');
+    window.location.reload();
+    this.props.router.push('/shop');
   }
+  
 
   // collapse/uncolappse
   switchSidebar() {
@@ -130,13 +133,13 @@ class Header extends React.Component {
                 }`}
               />
             </NavLink>
-            <UncontrolledTooltip placement="bottom" target="toggleSidebar">
+            {/* <UncontrolledTooltip placement="bottom" target="toggleSidebar">
               Turn on/off
               <br />
               sidebar
               <br />
               collapsing
-            </UncontrolledTooltip>
+            </UncontrolledTooltip> */}
             <NavLink className="fs-lg d-lg-none" onClick={this.switchSidebar}>
               <span className={`rounded rounded-lg d-md-none d-sm-down-block`}>
                 <i
@@ -187,7 +190,7 @@ class Header extends React.Component {
         >
           <i className="la la-circle text-primary mr-n-sm" />
           <i className="la la-circle text-danger" />
-          &nbsp; YoDigital &nbsp;
+          {/* &nbsp; YoDigital &nbsp; */}
           <i className="la la-circle text-danger mr-n-sm" />
           <i className="la la-circle text-primary" />
         </NavLink>
@@ -205,7 +208,7 @@ class Header extends React.Component {
                 />
               ) : (
                 <span title={user && (user.firstName || user.email)}>
-                  {firstUserLetter}
+                  {/* <span iconName={<Avatar />}></span> */}
                 </span>
               )}
             </span>
@@ -231,12 +234,16 @@ class Header extends React.Component {
               />
             </DropdownToggle>
             <DropdownMenu right className={`super-colors`}>
-              <DropdownItem href="/#/app/profile">
+              <DropdownItem href="/account">
                 <i className="la la-user" /> My Account
+              </DropdownItem>
+              <DropdownItem href="/shop">
+                <i className="bi bi-shop-window" /> Shop
               </DropdownItem>
               <DropdownItem onClick={this.doLogout}>
                 <i className="la la-sign-out" /> Log Out
               </DropdownItem>
+              
             </DropdownMenu>
           </Dropdown>
         </Nav>

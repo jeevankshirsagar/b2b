@@ -41,7 +41,7 @@ class BlogsForm extends Component {
       return "Edit My Profile";
     }
 
-    return this.props.isEditing ? "Edit blogs" : "Add blogs";
+    return this.props.isEditing ? "Edit Update" : "Add Update";
   };
 
   renderForm() {

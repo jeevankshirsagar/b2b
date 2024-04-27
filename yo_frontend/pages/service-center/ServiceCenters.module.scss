@@ -1,0 +1,50 @@
+@import "styles/app";
+
+.service__center_frame {
+	iframe {
+		border: 0;
+		width: 100%;
+		display: block;
+		border-radius: 15px;
+	}
+}
+
+.sc__choose_dropdown {
+	select {
+		height: 45px;
+		padding: 0 5px;
+		border-radius: 20px;
+		
+
+	}
+}
+
+/* Regular styles */
+.button-wrapper {
+	text-align: right; /* Align button to the right */
+  }
+  
+  .btn-primary {
+	border-radius: 12px;
+  }
+  
+  /* Media query for screens smaller than or equal to 768px (e.g., tablets) */
+  @media (max-width: 768px) {
+	.button-wrapper {
+	  text-align: center; /* Center-align button on smaller screens */
+	}
+  
+	.btn-primary {
+	  margin-left: 0; /* Remove left margin */
+	  margin-top: 10px; /* Adjust top margin */
+	  background-color: red;
+	}
+  }
+  
+  /* Media query for screens smaller than or equal to 576px (e.g., smartphones) */
+  @media (max-width: 576px) {
+	.btn-primary {
+	  font-size: 14px; /* Adjust font size for smaller screens */
+	}
+  }
+  
