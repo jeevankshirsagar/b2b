@@ -1,0 +1,51 @@
+.my-slider {
+  padding: 5px !important; 
+  background: #fff;// Add equal spacing of 5px around the slider
+  
+  .slick-list {
+    margin: 0 -5px !important; // Compensate for the padding
+  }
+
+  .slick-slide {
+    padding: 0 5px !important; // Add equal spacing of 5px around each slide
+  }
+
+  .slick-prev,
+  .slick-next {
+    z-index: 1 !important;
+  }
+
+  .slick-prev:before,
+  .slick-next:before {
+    color: black !important;
+  }
+
+  
+
+  .sliderItem {
+    width: 150px !important; // Set the width to 150px
+    height: 150px !important; // Set the height to150pxx
+    text-align: center !important; // Center align the content
+    border-radius: 50px !important; // Apply rounded border
+    border: none; // Border size and color
+
+    img {
+      width: 40% !important;
+      height: 40% !important;
+      border-radius: 50% !important; // Apply rounded border to the image
+    }
+
+    p {
+      margin-top: 8px !important;
+      font-weight: bold !important;
+    }
+  }
+
+  @media only screen and (max-width: 768px) {
+    .sliderItem {
+      width: 100px !important; // Adjust width for mobile view
+      height: 100px !important; // Adjust height for mobile view
+      margin: 5px !important; // Add margin for spacing between items in mobile view
+    }
+  }
+}
