@@ -1,9 +1,17 @@
-const withImages = require('next-images')
-const withNextCircularDeps = require('next-circular-dependency')
-module.exports = withImages({
-    // webpack: (config, { isServer }) => {
-    //     config.externals = ["webpack", "readable-stream", "d3-interpolate", "next"]
-    //     return config
-    // }
-})
+const withImages = require('next-images');
 
+module.exports = withImages({
+    images: {
+        dangerouslyAllowSVG: true,
+        disableStaticImages: true,
+        domains: [
+            "abc-demo.cdn.prismic.io",
+            "images.prismic.io",
+        ],
+    },
+    webpack: (config, { isServer }) => {
+        config.externals = ['webpack', 'readable-stream', 'd3-interpolate', 'next'];
+        return config;
+    },
+    output: 'standalone'
+});
