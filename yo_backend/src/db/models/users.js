@@ -46,12 +46,12 @@ module.exports = function (sequelize, DataTypes) {
         defaultValue: true,
       },
 
-      userVerified: {
-        type: DataTypes.BOOLEAN,
-
-        allowNull: false,
-        defaultValue: true,
-      },
+      // userVerified: {
+      //   type: DataTypes.BOOLEAN,
+      //
+      //   allowNull: false,
+      //   defaultValue: true,
+      // },
       emailVerificationToken: {
         type: DataTypes.TEXT,
       },

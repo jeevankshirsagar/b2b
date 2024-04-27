@@ -98,15 +98,20 @@ export function loginUser(creds) {
           const token = res.data;
           dispatch(receiveToken(token));
           dispatch(doInit());
-          if (typeof window !== 'undefined') { window.location.href = "/account" } 
+          if (typeof window !== 'undefined') {
+            window.location.href = "/account"
+          }
         })
         .catch((err) => {
-          console.log(err.response);
-          dispatch(authError(err.response));
+          if(err.code === 'ERR_BAD_REQUEST') {
+            alert(err.response.data);
+            console.error(err.response.data);
+          }
+
+          dispatch(authError(err.response.data));
         });
     } else {
       dispatch(authError("Something was wrong. Try again"));
-      
     }
   };
 }
