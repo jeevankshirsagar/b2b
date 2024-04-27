@@ -1,26 +1,14 @@
-import { Formik } from "formik";
 import React, { Component } from "react";
-import Loader from "components/admin/Loader";
-
-import InputFormItem from "components/admin/FormItems/items/InputFormItem";
+import { Formik } from "formik";
+import Widget from "components/admin/Widget";
+import ProductsAutocompleteFormItem from "components/admin/CRUD/Products/autocomplete/ProductsAutocompleteFormItem";
+import UsersAutocompleteFormItem from "components/admin/CRUD/Users/autocomplete/UsersAutocompleteFormItem";
 import InputNumberFormItem from "components/admin/FormItems/items/InputNumberFormItem";
-import SwitchFormItem from "components/admin/FormItems/items/SwitchFormItem";
-import RadioFormItem from "components/admin/FormItems/items/RadioFormItem";
-import SelectFormItem from "components/admin/FormItems/items/SelectFormItem";
 import DatePickerFormItem from "components/admin/FormItems/items/DatePickerFormItem";
-import ImagesFormItem from "components/admin/FormItems/items/ImagesFormItem";
-import FilesFormItem from "components/admin/FormItems/items/FilesFormItem";
-import TextAreaFormItem from "components/admin/FormItems/items/TextAreaFormItem";
-
+import SelectFormItem from "components/admin/FormItems/items/SelectFormItem";
 import ordersFields from "components/admin/CRUD/Orders/ordersFields";
 import IniValues from "components/admin/FormItems/iniValues";
-import PreparedValues from "components/admin/FormItems/preparedValues";
 import FormValidations from "components/admin/FormItems/formValidations";
-import Widget from "components/admin/Widget";
-
-import ProductsAutocompleteFormItem from "components/admin/CRUD/Products/autocomplete/ProductsAutocompleteFormItem";
-
-import UsersAutocompleteFormItem from "components/admin/CRUD/Users/autocomplete/UsersAutocompleteFormItem";
 
 class OrdersForm extends Component {
   iniValues = () => {
@@ -38,47 +26,87 @@ class OrdersForm extends Component {
 
   title = () => {
     if (this.props.isProfile) {
-      return "Edit My Profile";
+      return <h4 className="fw-bold">Edit My Profile</h4>;
     }
-
-    return this.props.isEditing ? "Edit orders" : "Add orders";
+    return (
+      <h4 className="fw-bold">
+        {this.props.isEditing ? "Edit orders" : "Add orders"}
+      </h4>
+    );
   };
 
-  renderForm() {
+  render() {
     const { saveLoading } = this.props;
 
     return (
-      <Widget title={<h4>{this.title()}</h4>} collapse close>
+      <Widget title={this.title()} collapse close>
         <Formik
           onSubmit={this.handleSubmit}
           initialValues={this.iniValues()}
           validationSchema={this.formValidations()}
           render={(form) => {
             return (
-              <form onSubmit={form.handleSubmit}>
-                <DatePickerFormItem
-                  name={"order_date"}
-                  schema={ordersFields}
-                  showTimeInput
-                />
+              <form onSubmit={form.handleSubmit} className="row">
+                {/* First Column */}
+                <div className="col-md-6">
+                  {/* Order Date */}
+                  <DatePickerFormItem
+                    name={"order_date"}
+                    schema={ordersFields}
+                    showTimeInput
+                  />
 
-                <ProductsAutocompleteFormItem
-                  name={"product"}
-                  schema={ordersFields}
-                  showCreate={!this.props.modal}
-                />
+                  {/* Product */}
+                  <ProductsAutocompleteFormItem
+                    name={"product"}
+                    schema={ordersFields}
+                    showCreate={!this.props.modal}
+                  />
 
-                <UsersAutocompleteFormItem
-                  name={"user"}
-                  schema={ordersFields}
-                  showCreate={!this.props.modal}
-                />
+                  <div className="mb-3">
+                    <img
+                      src={form.values.files?.image?.[0]?.privateUrl}
+                      alt="Product"
+                      style={{ width: "100px", height: "auto" }}
+                    />
+                  </div>
+                </div>
 
-                <InputNumberFormItem name={"amount"} schema={ordersFields} />
+                {/* Second Column */}
+                <div className="col-md-6">
+                  {/* User */}
+                  <UsersAutocompleteFormItem
+                    name={"user"}
+                    schema={ordersFields}
+                    showCreate={!this.props.modal}
+                  />
 
-                <RadioFormItem name={"status"} schema={ordersFields} />
+                  {/* Amount */}
+                  <InputNumberFormItem
+                    name={"amount"}
+                    schema={ordersFields}
+                  />
+                </div>
 
-                <div className="form-buttons">
+                {/* Status */}
+                <div className="col-md-12 ">
+                  <div className="d-flex justify-content-center">
+                    <SelectFormItem
+                      name={"status"}
+                      schema={ordersFields}
+                      options={[
+                        { value: "ordered", label: "Ordered" },
+                        { value: "intransit", label: "In Transit" },
+                        { value: "delivered", label: "Delivered" },
+                      ]}
+
+                      style={{ width: "800px" }}
+                    />
+                  </div>
+                </div>
+
+                {/* Form buttons */}
+                <div className="form-buttons col-md-12">
                   <button
                     className="btn btn-primary"
                     disabled={saveLoading}
@@ -111,29 +139,6 @@ class OrdersForm extends Component {
       </Widget>
     );
   }
-
-  render() {
-    const { isEditing, findLoading, record } = this.props;
-
-    if (findLoading) {
-      return <Loader />;
-    }
-
-    if (isEditing && !record) {
-      return <Loader />;
-    }
-
-    return this.renderForm();
-  }
-}
-
-export async function getServerSideProps(context) {
-    // const res = await axios.get("/products");
-    // const products = res.data.rows;
-
-    return {
-        props: {  }, // will be passed to the page component as props
-    };
 }
 
 export default OrdersForm;

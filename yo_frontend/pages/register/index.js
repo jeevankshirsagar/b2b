@@ -22,6 +22,10 @@ import eye from 'public/images/e-commerce/login/eye.png';
 import eyeOff from 'public/images/e-commerce/login/eye-off.png';
 import Head from 'next/head';
 
+import {Toast, ToastBody} from "reactstrap";
+import { ToastContainer, toast } from "react-toastify";
+
+
 import s from './Register.module.scss';
 
 class Index extends React.Component {
@@ -81,18 +85,30 @@ class Index extends React.Component {
     );
   }
 
-  doRegister(e) {
+  async doRegister(e) {
     e.preventDefault();
     if (!this.isPasswordValid()) {
       this.checkPassword();
     } else {
-      console.log('registre')
-      this.props.dispatch(
-        registerUser({
-          email: this.state.email,
-          password: this.state.password,
-        })
-      );
+      // Attempt registration
+      try {
+        await this.props.dispatch(
+          registerUser({
+            email: this.state.email,
+            password: this.state.password,
+          })
+        );
+
+        // If registration is successful, show success toast
+        toast.success('Registration successful!', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      } catch (error) {
+        // If registration fails, show error toast
+        toast.error('Registration failed. Please try again later.', {
+          position: toast.POSITION.TOP_RIGHT
+        });
+      }
     }
   }
 
@@ -128,6 +144,9 @@ class Index extends React.Component {
 <meta property="og:site_name" content="yodigital"/>
 <meta name="twitter:site" content="@yodigital" />
         </Head>
+
+        <ToastContainer />
+
         <Row className={"no-gutters"} style={{ height: "100vh" }}>
           <Col
             xs={12}

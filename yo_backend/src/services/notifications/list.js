@@ -5,8 +5,8 @@ const errors = {
 
   auth: {
     userDisabled: 'Your account is disabled',
-    userNotFound: `Sorry, we don't recognize your credentials`,
-    wrongPassword: `Sorry, we don't recognize your credentials`,
+    userNotFound: `User not found`,
+    wrongPassword: `Password did not match`,
     weakPassword: 'This password is too weak',
     emailAlreadyInUse: 'Email is already in use',
     invalidEmail: 'Please provide a valid email',

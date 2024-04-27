@@ -1,6 +1,6 @@
 module.exports = {
   production: {
-    use_env_variable: "DATABASE_URL",
+    use_env_variable: "postgres://postgres:password@localhost:5432/yodigital",
     dialect: "postgres",
     dialectOptions: {
       ssl: {
@@ -9,11 +9,13 @@ module.exports = {
       },
     },
   },
+
+
   development: {
     username: "postgres",
     dialect: "postgres",
-    password: "123456",
-    database: "development",
+    password: "password",
+    database: "yodigital",
     host: "localhost",
     logging: console.log,
   },

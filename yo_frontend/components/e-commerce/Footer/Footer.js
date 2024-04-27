@@ -37,13 +37,13 @@ const Footer = () => {
           <hr className={s.footer__hr} />
           <Row className={"my-5 justify-content-between"}>
             <Col
-              xl={5}
-              md={3}
+              xl={3}
+              md={1}
               className={"d-flex flex-column justify-content-between"}
             >
 
               <div style={{ marginLeft: '270px' }}>
-                <Col md={4} sm={6} xs={12}>
+                <Col md={3} sm={6} xs={12}>
                   <section className={`${s.top_ele} img-fluid`} style={{ marginLeft: '-280px' }}>
                     <h5 className={"text-white fw-bold text-uppercase mb-4"}>
                       Social Media
@@ -67,7 +67,7 @@ const Footer = () => {
                     <Twitter />
                   </a>
                 </Link>
-               
+
                 <Link href="/">
                   <a className={s.socialLink} target="_blank" rel="noopener noreferrer">
                     <Facebook />
@@ -75,66 +75,46 @@ const Footer = () => {
                 </Link>
               </div>
             </Col>
-            <Col md={9} xl={7} sm={12}>
+            <Col md={11} xl={9} sm={12}>
               <Row className={s.linksRow}>
 
-                <section className={`${s.top_com} img-fluid`}>
-                  <Col md={4} sm={6} xs={12}>
-                    <h5 className={"text-white fw-bold text-uppercase mb-4"}>
-                      company
-                    </h5>
-                    {/* <Link href="/about"><h6 className={`mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>What We Do</h6>
-</Link> */}
+                <Col md={3} sm={6} xs={12}>
+                  <section className={`${s.top_cust} img-fluid`}>
+                    <h5 className={"text-primary fw-bold text-uppercase mb-4"}>Company Details</h5>
+                    <Link href="https://maps.app.goo.gl/H9LRo4zf4dDNdBbZA"><h6 className={`${s.navigationLink}`}> 09, Basement Ashoka Shopping Centre, Lokmanya Tilak Rd, Mumbai, Maharashtra 400001</h6></Link>
+                    <Link href="#"><h6 className={`mb-3 ${s.navigationLink}`}>yodigital.com</h6></Link>
+                    <Link href="#"><h6 className={`mb-3 ${s.navigationLink}`}>+91 9987957863</h6></Link>
+                  </section>
+                </Col>
+
+                <Col md={3} sm={6} xs={12}>
+                  <section className={`${s.top_com} img-fluid`}>
+                    <h5 className={"text-primary fw-bold text-uppercase mb-4"}>company</h5>
                     <Link href="/shop"><h6 className={`mb-3 ${s.navigationLink}`}>shop</h6></Link>
                     <Link href="/faq"><h6 className={`mb-3 ${s.navigationLink}`}>FAQs</h6></Link>
-                  </Col>
-                </section>
-                <section className={`${s.top_my} img-fluid`}>
-                  <Col md={4} sm={6} xs={12}>
-                    <h5 className={"text-white fw-bold text-uppercase mb-4"} style={{ whiteSpace: 'nowrap' }}>
-                      my account
-                    </h5>
+                  </section>
+                </Col>
 
-                    <Link href="/login"><h6 className={`mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>Sign In</h6>
-</Link>
-                    <Link href="/cart"><h6 className={`mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>View Cart</h6>
-</Link>
-                    <Link href="account/"><h6 className={`mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>Order Tracking</h6>
-</Link>
-                    <Link href="/faq"><h6 className={`mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>Help & Support</h6>
-</Link>
-                  </Col>
-                </section>
+                <Col md={3} sm={6} xs={12}>
+                  <section className={`${s.top_my} img-fluid`}>
+                    <h5 className={"text-primary fw-bold text-uppercase mb-4"}>my account</h5>
+                    <Link href="/account"><h6 className={`mb-3 ${s.navigationLink}`}>account</h6></Link>
+                    <Link href="/"><h6 className={`mb-3 ${s.navigationLink}`}>Help & Support</h6></Link>
+                  </section>
+                </Col>
 
+                <Col md={3} sm={6} xs={12}>
+                  <section className={`${s.top_cust} img-fluid`}>
+                    <h5 className={"text-primary fw-bold text-uppercase mb-4"}>customer service</h5>
+                    <Link href="/contact"><h6 className={`${s.navigationLink}`}>Help & Contact Us</h6></Link>
 
-
-                <section className={`${s.top_cust} img-fluid`}>
-                  <Col md={4} sm={6} xs={12}>
-                    <h5 className={"text-white fw-bold text-uppercase text-nowrap mb-4"}>
-                      customer service
-                    </h5>
-                    <Link href="/contact">
-                    <h6 className={`text-white  ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>Help & Contact Us</h6>
-
-                    </Link>
-                    <Link href="/account">
-                    <h6 className={` text-white  mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>Returns & Refunds</h6>
-
-                    </Link>
-                    <Link href="/shop">
-                    <h6 className={` text-white mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>Online Stores</h6>
-
-                    </Link>
-                    {/* <Link href="/about-team">
-                    <h6 className={`mb-3 ${s.navigationLink}`} style={{ whiteSpace: 'nowrap' }}>Terms & Conditions</h6>
-
-                    </Link> */}
-                  </Col>
-                </section>
-
-
-
+                    <Link href="/service-center"><h6 className={`mb-3 ${s.navigationLink}`}>Service Centers</h6></Link>
+                    <Link href="http://srv481744.hstgr.cloud:8081/"><h6 className={`mb-3 ${s.navigationLink}`}>Online Stores</h6></Link>
+                    <Link href="/terms"><h6 className={`mb-3 ${s.navigationLink}`}>Terms & Conditions</h6></Link>
+                  </section>
+                </Col>
               </Row>
+
             </Col>
           </Row>
         </>

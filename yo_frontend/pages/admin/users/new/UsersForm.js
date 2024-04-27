@@ -13,6 +13,8 @@ import PreparedValues from "components/admin/FormItems/preparedValues";
 import FormValidations from "components/admin/FormItems/formValidations";
 import Widget from "components/admin/Widget";
 import Toggle from "components/admin/FormItems/items/Toggle";
+// import { motion } from 'framer-motion';
+// import { AnimatePresence } from 'framer-motion';
 
 class UsersForm extends Component {
   iniValues = () => {
@@ -101,7 +103,21 @@ class UsersForm extends Component {
                       max={undefined}
                     />
 
-<Toggle name="disabled" form={form}  schema={usersFields}  />
+<div className="d-flex">
+  <span className="fw-bold"> Status</span>
+
+  {/* <motion.div layout /> */}
+
+
+            {/* <Toggle 
+
+            name="disabled"
+            form={form}
+            schema={usersFields}
+            className="custom-toggle"
+          /> */}
+</div>
+
                   </div>
                 </div>
 

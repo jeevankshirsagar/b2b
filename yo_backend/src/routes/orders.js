@@ -24,13 +24,34 @@ router.delete('/:id', wrapAsync(async (req, res) => {
   res.status(200).send(payload);
 }));
 
-router.get('/', wrapAsync(async (req, res) => {
-  const payload = await OrdersDBApi.findAll(
-    req.query,
-  );
 
-  res.status(200).send(payload);
-}));
+
+// router.get('/', wrapAsync(async (req, res) => {
+//   const userId = req.params.userId; // Get user ID from URL parameters
+//   const payload = await OrdersDBApi.findAll({ userId }); // Pass user ID to DB API method
+
+//   res.status(200).send(payload);
+// }));
+
+
+router.get('/', async (req, res) => {
+  try {
+    const filter = req.query.filter; // Assuming you're passing filters via query parameters
+    const userId = req.params.userId; // Assuming user ID is stored in session
+
+console.log("This is role mesg")    // Call the findAll method with the filter and currentUser
+    const orders = await OrdersDBApi.findAll(filter, { userId });
+
+    // Send the orders as a response
+    res.json(orders);
+  } catch (error) {
+  // Handle errors
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+
 router.get('/autocomplete', async (req, res) => {
   const payload = await OrdersDBApi.findAllAutocomplete(
     req.query.query,

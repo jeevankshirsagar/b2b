@@ -70,7 +70,7 @@ const Wishlist = () => {
             amount: 1,
             order_date: new Date(),
             product: id,
-            status: "in cart",
+            status: "ordered",
             user: currentUser.id,
           },
         });
@@ -80,7 +80,7 @@ const Wishlist = () => {
           amount: 1,
           order_date: new Date(),
           product: id,
-          status: "in cart",
+          status: "ordered",
         });
         localStorage.setItem("products", JSON.stringify(localProducts));
         dispatchStore(productsListActions.doAdd(localProducts));
@@ -191,7 +191,7 @@ const Wishlist = () => {
         </Row>
       </Container>
       <InfoBlock />
-      <InstagramWidget />
+      {/* <InstagramWidget /> */}
     </>
   );
 };

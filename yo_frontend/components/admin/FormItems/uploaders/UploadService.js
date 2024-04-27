@@ -70,7 +70,10 @@ export default class FileUploader {
     });
 
     const privateUrl = `${path}/${filename}`;
+    
 
     return `${config.baseURLApi}/file/download?privateUrl=${privateUrl}`;
   }
 }
+
+

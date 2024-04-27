@@ -3,17 +3,17 @@ const ordersFields = {
   order_date: { type: "datetime", label: "Order date" },
   product: { type: "relation_one", label: "Product" },
   user: { type: "relation_one", label: "User" },
-  amount: { type: "int", label: "Amount" },
-  order_no: { type: "string", label: "order No" },
-  dp: { type: "string", label: "dp" },
+  amount: { type: "int", label: "Quantity" },
+  order_no: { type: "string", label: "order No"},
   status: {
     type: "enum",
     label: "Status",
 
     options: [
-      { value: "interested", label: "interested" },
+      { value: "ordered", label: "Ordered" },
+      { value: "intransit", label: "In transit" },
 
-      { value: "ordered", label: "ordered" },
+      { value: "delivered", label: "Delivered" },
     ],
   },
 };

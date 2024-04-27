@@ -13,6 +13,7 @@ name: { type: 'string', label: 'Name',
 
   },
   bname:{type:'string', label:'Business Name'},
+  whatsapp: { type: 'string', label: 'Whatsapp'},
   bgst:{type:'string', label:'Business GST'},
   address:{type:'string', label:'Business Address'},
   unit:{type:'string', label:'Unit'},

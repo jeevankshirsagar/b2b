@@ -3,6 +3,7 @@ export const productsFields = {
   image: { type: "images", label: "Image" },
   title: { type: "string", label: "Title" },
   price: { type: "decimal", label: "Price" },
+  dp: { type: "string", label: "Distributor Price"},
   discount: { type: "decimal", label: "Discount" },
   description: { type: "string", label: "Description" },
   categories: { type: "relation_many", label: "сategories" },
@@ -13,7 +14,7 @@ export const productsFields = {
     label: "Status",
 
     options: [
-      { value: "in stock", label: "In stock" },
+      { value: "in stock", label: "in stock" },
 
       { value: "out of stock", label: "out of stock" },
     ],

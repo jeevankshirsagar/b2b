@@ -80,6 +80,12 @@ class UsersForm extends Component {
 
                 <RadioFormItem name={"balance"} schema={usersFields} />
 
+                <DatePickerFormItem
+                  name={"duedate"}
+                  schema={usersFields}
+                  showTimeInput
+                />
+
                 <InputFormItem name={"aadhar"} schema={usersFields} />
 
                 <ImagesFormItem

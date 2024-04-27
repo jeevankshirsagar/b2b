@@ -127,15 +127,16 @@
 .logoStyle {
   
   height: 45px;
-  background-image: url("../../../public/images/e-commerce/yodlogo.png");
+  background-image: url("../../../public/images/e-commerce/yo_logoo.svg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: right;
   display: flex;
-  width: auto;
+  width: fit-content;
   flex-direction: column;
   justify-content: center;
-  padding: 0 80px;
+  
+  padding: 0 30px;
 }
 
 // -------------------
@@ -283,7 +284,7 @@ height: 30px; /* Add height property */
   border: 1px solid #E9E9E9;
   top: 60px;
   right: 1px;
-  width: 850%;
+  width: 150%;
   background-color: #fff;
 
   .navLink {

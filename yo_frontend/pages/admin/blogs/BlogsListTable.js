@@ -6,6 +6,8 @@ import actions from "redux/actions/blogs/blogsListActions";
 import React, { Component } from "react";
 import Link from 'next/link'
 import { connect } from "react-redux";
+import 'bootstrap-icons/font/bootstrap-icons.css';
+
 
 import {
   Dropdown,
@@ -64,8 +66,8 @@ class BlogsListTable extends Component {
           Edit
         </Button>
         &nbsp;&nbsp;
-        <Button color="danger" size="xs" onClick={() => this.openModal(cell)}>
-          Delete
+        <Button color="danger" size="s"  style={{borderRadius: '7px'}} onClick={() => this.openModal(cell)}>
+        <i className={"bi bi-trash-fill"}></i>
         </Button>
       </div>
     );
@@ -109,11 +111,11 @@ class BlogsListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4>Blogs</h4>} collapse close>
+        <Widget title={<h2 className="fw-bold">Announcements</h2>} collapse close>
           <Link href="/admin/blogs/new">
-            <button className="btn btn-primary" type="button">
-              New
-            </button>
+          <button className="btn btn-dark fw-bold " style={{ borderRadius: '10px'}} type="button">
+  <i className="bi bi-plus" ></i>Add Update
+</button>
           </Link>
           <BootstrapTable
             bordered={false}
@@ -136,13 +138,13 @@ class BlogsListTable extends Component {
               <span className="fs-sm">Title</span>
             </TableHeaderColumn>
 
-            <TableHeaderColumn
+            {/* <TableHeaderColumn
               dataField="author_avatar"
               dataSort
               dataFormat={dataFormat.imageFormatter}
             >
               <span className="fs-sm">Author avatar</span>
-            </TableHeaderColumn>
+            </TableHeaderColumn> */}
 
             <TableHeaderColumn dataField="author_name" dataSort>
               <span className="fs-sm">Author name</span>

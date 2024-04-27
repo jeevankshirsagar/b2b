@@ -35,6 +35,7 @@ class Index extends Component {
     }
   };
 
+  
   isEditing = () => {
     const { router } = this.props;
     return !!router.query.id;

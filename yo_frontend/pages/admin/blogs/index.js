@@ -7,7 +7,7 @@ class Index extends Component {
     return (
       <div>
         <Head>
-        <title>Blog List</title>
+        <title>Announcement</title>
         <meta name="viewport" content="initial-scale=1.0, width=device-width" />
 
 <meta name="description" content="yodigital B2B" />

@@ -26,11 +26,17 @@ module.exports = function(sequelize, DataTypes) {
         type: DataTypes.ENUM,
       
         values: [
-          "in cart",
-          "bought"
+          "ordered",
+          "intransit",
+          "delivered"
         ],
 
       },
+
+    order_no: {
+      type: DataTypes.STRING,
+
+    },
 
       importHash: {
         type: DataTypes.STRING(255),
@@ -43,6 +49,35 @@ module.exports = function(sequelize, DataTypes) {
       paranoid: true,
     },
   );
+
+
+
+
+
+  orders.beforeCreate(async (order) => {
+    try {
+      // Find the latest order number
+      const latestOrder = await orders.findOne({
+        order: [['createdAt', 'DESC']]
+      });
+
+      let orderNo = '#YD100'; // Default starting order number
+      if (latestOrder && latestOrder.order_no) {
+        // Extract the numeric part of the latest order number and increment it
+        const latestOrderNo = parseInt(latestOrder.order_no.slice(3)); // Remove '#YD' and parse to integer
+        orderNo = '#YD' + (latestOrderNo + 1); // Increment and concatenate with '#YD'
+      }
+
+      // Assign the generated order number to the new order
+      order.order_no = orderNo;
+    } catch (error) {
+      console.error('Error generating order number:', error);
+      // Handle error if any
+    }
+  });
+
+
+
 
   orders.associate = (db) => {
 

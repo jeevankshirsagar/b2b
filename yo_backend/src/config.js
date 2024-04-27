@@ -13,10 +13,10 @@ var config = {
     MICROSOFT: 'microsoft'
   },
   secret_key: 'HUEyqESqgQ1yTwzVlO6wprC9Kf1J1xuA',
-  remote: 'https://sing-generator-node.herokuapp.com',
-  port: process.env.NODE_ENV === "production" ? "" : "8080",
-  hostUI: process.env.NODE_ENV === "production" ? "https://exigirtech.com"  : "http://localhost",
-  portUI: process.env.NODE_ENV === "production" ? "" : "3000",
+  remote: 'http://srv481744.hstgr.cloud:3000',
+  port: process.env.NODE_ENV === "development" ? "" : "8080",
+  hostUI: process.env.NODE_ENV === "development" ? "http://srv481744.hstgr.cloud"  : "http://localhost",
+  portUI: process.env.NODE_ENV === "development" ? "" : "3000",
   google: {
     clientId: '671001533244-kf1k1gmp6mnl0r030qmvdu6v36ghmim6.apps.googleusercontent.com',
     clientSecret: 'Yo4qbKZniqvojzUQ60iKlxqR'
@@ -31,7 +31,7 @@ var config = {
      host: 'smtp.hostinger.com',
     port: 465,
     subject: "Reset Your Password",
-    // text: `http://localhost:5173/reset-password/${user._id}/${token}`,
+    // text: `http://srv481744.hstgr.cloud:8080/reset-password/${users._id}/${token}`,
     auth: {
       user: "jeevan@exigirtech.com ",
       pass: "Pass@123",
@@ -42,7 +42,7 @@ var config = {
   },
 };
 
-config.host = process.env.NODE_ENV === "production" ? config.remote : "http://srv481744.hstgr.cloud";
+config.host = process.env.NODE_ENV === "development " ? config.remote : "http://srv481744.hstgr.cloud";
 config.apiUrl = `${config.host}${config.port ? `:${config.port}` : ``}/api`;
 config.uiUrl = `${config.hostUI}${config.portUI ? `:${config.portUI}` : ``}`;
 

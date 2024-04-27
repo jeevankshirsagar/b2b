@@ -41,7 +41,7 @@ class BlogsForm extends Component {
       return "Edit My Profile";
     }
 
-    return this.props.isEditing ? "Edit blogs" : "Add blogs";
+    return this.props.isEditing ? "Edit Update" : "Add Update";
   };
 
   renderForm() {
@@ -67,7 +67,7 @@ class BlogsForm extends Component {
                   max={undefined}
                 />
 
-                <ImagesFormItem
+                {/* <ImagesFormItem
                   name={"blog_image_one"}
                   schema={blogsFields}
                   path={"blogs/image"}
@@ -76,9 +76,9 @@ class BlogsForm extends Component {
                     formats: undefined,
                   }}
                   max={undefined}
-                />
+                /> */}
 
-                <ImagesFormItem
+                {/* <ImagesFormItem
                   name={"blog_image_two"}
                   schema={blogsFields}
                   path={"blogs/image"}
@@ -109,7 +109,7 @@ class BlogsForm extends Component {
                     formats: undefined,
                   }}
                   max={undefined}
-                />
+                /> */}
 
                 <InputFormItem name={"title"} schema={blogsFields} />
 
@@ -119,7 +119,7 @@ class BlogsForm extends Component {
                   name={"epigraph"}
                   schema={blogsFields}
                 />
-                <TextAreaFormItem
+                {/* <TextAreaFormItem
                   name={"first_paragraph"}
                   schema={blogsFields}
                 />
@@ -200,7 +200,7 @@ class BlogsForm extends Component {
 
                 <InputFormItem name={"meta_og_sitename"} schema={blogsFields} />
 
-                <InputFormItem name={"post_twitter"} schema={blogsFields} />
+                <InputFormItem name={"post_twitter"} schema={blogsFields} /> */}
 
                 <RadioFormItem name={"status"} schema={blogsFields} />
 

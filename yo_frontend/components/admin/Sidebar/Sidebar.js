@@ -23,8 +23,12 @@ import PersonIcon from "public/images/e-commerce/sidebar/person";
 import PricetagIcon from "public/images/e-commerce/sidebar/pricetag";
 import SettingsIcon from "public/images/e-commerce/sidebar/settings";
 import ShoppingIcon from "public/images/e-commerce/sidebar/shopping";
+import Enquiry from "public/images/e-commerce/sidebar/enquiry";
+
+
 
 class Sidebar extends React.Component {
+  
   static propTypes = {
     sidebarStatic: PropTypes.bool,
     sidebarOpened: PropTypes.bool,
@@ -70,6 +74,7 @@ class Sidebar extends React.Component {
   }
 
   render() {
+    const { currentUser } = this.props;
     return (
       <div
         className={`${
@@ -85,21 +90,25 @@ class Sidebar extends React.Component {
         >
           <header className={s.logo}>
             <span className={`${s.logoStyle} mx-1`}>
-              YODIGITAL<i></i>
+              YoDigitals<i></i>
             </span>
           </header>
           <ul className={s.nav}>
-            {/* <LinksGroup
+            
+          {this.props.currentUser &&
+            this.props.currentUser.role === "user" && (
+            <LinksGroup
                 onActiveSidebarItemChange={(activeItem) =>
                     this.props.dispatch(changeActiveSidebarItem(activeItem))
                 }
                 activeItem={this.props.activeItem}
-                header="Home"
+                header="Dashboard"
                 link={`${this.props.currentUser ? '/admin/dashboard' : '/'}`}
                 isHeader
                 iconType="node"
                 iconName={<HomeIcon />}
-            /> */}
+            />
+            )}
 
             {this.props.currentUser &&
             this.props.currentUser.role === "admin" && (
@@ -127,7 +136,7 @@ class Sidebar extends React.Component {
                     link="/admin/feedback"
                     isHeader
                     iconType="node"
-                    iconName={<PricetagIcon />}
+                    iconName={<Enquiry />}
                 />
             )}
 
@@ -142,7 +151,7 @@ class Sidebar extends React.Component {
                     link="/admin/blogs"
                     isHeader
                     iconType="node"
-                    iconName={<DownloadIcon />}
+                    // iconName={<DownloadIcon />}
                 />
             )} */}
 
@@ -190,24 +199,33 @@ class Sidebar extends React.Component {
                     iconName={<BarIcon />}
                 />
             )}
-
-
-{this.props.currentUser &&
-            this.props.currentUser.role === "admin" && (
-                <LinksGroup
-                    onActiveSidebarItemChange={(activeItem) =>
-                        this.props.dispatch(changeActiveSidebarItem(activeItem))
-                    }
-                    activeItem={this.props.activeItem}
-                    header="Report"
-                    link="/admin/report"
-                    isHeader
-                    iconType="node"
-                    iconName={<BarIcon />}
-                />
+            {this.props.currentUser && (
+            <LinksGroup
+                onActiveSidebarItemChange={(activeItem) =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Ledger"
+                link="/admin/report"
+                isHeader
+                iconType="node"
+                iconName={<FileIcon />}
+            />
             )}
 
-
+{this.props.currentUser && this.props.currentUser.role === "admin" &&(
+            <LinksGroup
+                onActiveSidebarItemChange={(activeItem) =>
+                    this.props.dispatch(changeActiveSidebarItem(activeItem))
+                }
+                activeItem={this.props.activeItem}
+                header="Announcement"
+                link="/admin/blogs"
+                isHeader
+                iconType="node"
+                iconName={<FileIcon />}
+            />
+            )}
 
             {this.props.currentUser && (
             <LinksGroup
@@ -215,8 +233,8 @@ class Sidebar extends React.Component {
                     this.props.dispatch(changeActiveSidebarItem(activeItem))
                 }
                 activeItem={this.props.activeItem}
-                header="My Profile"
-                link=""
+                header="Profile"
+                link="/admin/users"
                 isHeader
                 iconType="node"
                 iconName={<FileIcon />}
@@ -249,6 +267,8 @@ class Sidebar extends React.Component {
                 iconName={<SettingsIcon />}
             />
             )}
+
+            
             {/* <LinksGroup
                 onActiveSidebarItemChange={(activeItem) =>
                     this.props.dispatch(changeActiveSidebarItem(activeItem))

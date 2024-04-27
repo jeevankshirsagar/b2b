@@ -1,22 +1,17 @@
-import { Formik } from "formik";
+import { Formik, FieldArray } from "formik";
 import React, { Component } from "react";
 import Loader from "components/admin/Loader";
+import { Button, Col, Row } from "reactstrap";
 
-import InputFormItem from "components/admin/FormItems/items/InputFormItem";
 import InputNumberFormItem from "components/admin/FormItems/items/InputNumberFormItem";
-import SwitchFormItem from "components/admin/FormItems/items/SwitchFormItem";
-import RadioFormItem from "components/admin/FormItems/items/RadioFormItem";
 import SelectFormItem from "components/admin/FormItems/items/SelectFormItem";
 import DatePickerFormItem from "components/admin/FormItems/items/DatePickerFormItem";
-import ImagesFormItem from "components/admin/FormItems/items/ImagesFormItem";
-import FilesFormItem from "components/admin/FormItems/items/FilesFormItem";
-import TextAreaFormItem from "components/admin/FormItems/items/TextAreaFormItem";
+import Widget from "components/admin/Widget";
 
 import ordersFields from "components/admin/CRUD/Orders/ordersFields";
 import IniValues from "components/admin/FormItems/iniValues";
 import PreparedValues from "components/admin/FormItems/preparedValues";
 import FormValidations from "components/admin/FormItems/formValidations";
-import Widget from "components/admin/Widget";
 
 import ProductsAutocompleteFormItem from "components/admin/CRUD/Products/autocomplete/ProductsAutocompleteFormItem";
 
@@ -24,7 +19,10 @@ import UsersAutocompleteFormItem from "components/admin/CRUD/Users/autocomplete/
 
 class OrdersForm extends Component {
   iniValues = () => {
-    return IniValues(ordersFields, this.props.record || {});
+    return {
+      ...IniValues(ordersFields, this.props.record || {}),
+      products: [] // Initialize products field as an empty array
+    };
   };
 
   formValidations = () => {
@@ -53,60 +51,102 @@ class OrdersForm extends Component {
           onSubmit={this.handleSubmit}
           initialValues={this.iniValues()}
           validationSchema={this.formValidations()}
-          render={(form) => {
-            return (
-              <form onSubmit={form.handleSubmit}>
-                <DatePickerFormItem
-                  name={"order_date"}
-                  schema={ordersFields}
-                  showTimeInput
-                />
-
-                <ProductsAutocompleteFormItem
-                  name={"product"}
-                  schema={ordersFields}
-                  showCreate={!this.props.modal}
-                />
-
-                <UsersAutocompleteFormItem
-                  name={"user"}
-                  schema={ordersFields}
-                  showCreate={!this.props.modal}
-                />
-
-                <InputNumberFormItem name={"amount"} schema={ordersFields} />
-
-                <RadioFormItem name={"status"} schema={ordersFields} />
-
-                <div className="form-buttons">
-                  <button
-                    className="btn btn-primary"
-                    disabled={saveLoading}
-                    type="button"
-                    onClick={form.handleSubmit}
-                  >
-                    Save
-                  </button>{" "}
-                  <button
-                    className="btn btn-light"
-                    type="button"
-                    disabled={saveLoading}
-                    onClick={form.handleReset}
-                  >
-                    Reset
-                  </button>{" "}
-                  <button
-                    className="btn btn-light"
-                    type="button"
-                    disabled={saveLoading}
-                    onClick={() => this.props.onCancel()}
-                  >
-                    Cancel
-                  </button>
-                </div>
-              </form>
-            );
-          }}
+          render={(formikProps) => (
+            <form onSubmit={formikProps.handleSubmit}>
+              <Row>
+                <Col md={6}>
+                  <DatePickerFormItem
+                    name={"order_date"}
+                    schema={ordersFields}
+                    showTimeInput
+                  />
+                  <FieldArray
+                    name="products"
+                    render={(arrayHelpers) => (
+                      <>
+                        {formikProps.values.products.map((product, index) => (
+                          <Row key={index}>
+                            <Col md={6}>
+                              <ProductsAutocompleteFormItem
+                                name={`products.${index}.product`}
+                                schema={ordersFields}
+                                showCreate={!this.props.modal}
+                                onSelect={(selectedProduct) =>
+                                  arrayHelpers.replace(index, {
+                                    product: selectedProduct,
+                                    quantity: product.quantity || 1 // Default quantity to 1 if not set
+                                  })
+                                }
+                              />
+                            </Col>
+                            <Col md={6}>
+                              <InputNumberFormItem
+                                name={`products.${index}.quantity`}
+                                schema={ordersFields}
+                                onChange={(value) =>
+                                  arrayHelpers.replace(index, {
+                                    product: product.product,
+                                    quantity: value
+                                  })
+                                }
+                              />
+                            </Col>
+                          </Row>
+                        ))}
+                        <Button
+                          type="button"
+                          onClick={() => arrayHelpers.push({ product: "", quantity: 1 })}
+                        >
+                          Add Product
+                        </Button>
+                      </>
+                    )}
+                  />
+                </Col>
+                <Col md={6}>
+                  <UsersAutocompleteFormItem
+                    name={"user"}
+                    schema={ordersFields}
+                    showCreate={!this.props.modal}
+                  />
+                  <SelectFormItem
+                    name="status"
+                    schema={ordersFields}
+                    options={[
+                      { value: "ordered", label: "Ordered" },
+                      { value: "intransit", label: "In Transit" },
+                      { value: "delivered", label: "Delivered" }
+                    ]}
+                  />
+                </Col>
+              </Row>
+              <div className="form-buttons">
+                <Button
+                  className="btn btn-primary"
+                  disabled={saveLoading}
+                  type="submit"
+                >
+                  Place Order
+                </Button>{" "}
+                <Button
+                  className="btn btn-light"
+                  type="button"
+                  disabled={saveLoading}
+                  onClick={formikProps.handleReset}
+                >
+                  Reset
+                </Button>{" "}
+                <Button
+                  className="btn btn-light"
+                  type="button"
+                  disabled={saveLoading}
+                  onClick={() => this.props.onCancel()}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </form>
+          )}
         />
       </Widget>
     );
@@ -128,12 +168,12 @@ class OrdersForm extends Component {
 }
 
 export async function getServerSideProps(context) {
-    // const res = await axios.get("/products");
-    // const products = res.data.rows;
+  // const res = await axios.get("/products");
+  // const products = res.data.rows;
 
-    return {
-        props: {  }, // will be passed to the page component as props
-    };
+  return {
+    props: {}, // will be passed to the page component as props
+  };
 }
 
 export default OrdersForm;

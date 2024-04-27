@@ -17,7 +17,7 @@ if (process.env.NODE_ENV !== "production") {
   require("dotenv").config();
 }
 
-const serviceRoute = require("./routes/settings");
+const serviceRoute = require('./routes/settings')
 const authRoutes = require("./routes/auth");
 const fileRoutes = require("./routes/file");
 const cmrRoutes = require("./routes/cmr");
@@ -30,7 +30,7 @@ const ordersRoutes = require("./routes/orders");
 const paymentsRoutes = require("./routes/payments");
 const usersRoutes = require("./routes/users");
 const Pro_enqRoutes = require("./routes/pro_enq");
-const reportRoutes = require("./routes/report");
+const reportRoutes = require('./routes/report');
 
 app.use(cors({ origin: true }));
 app.use(helmet());
@@ -61,7 +61,7 @@ app.use(
 );
 app.use(
   "/api/users",
-   passport.authenticate("jwt", { session: false }),
+  passport.authenticate("jwt", { session: false }),
   usersRoutes
 );
 
@@ -134,10 +134,10 @@ app.use("/api/report", reportRoutes);
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).send("Error");
+  res.status(500).send('Error');
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8000;
 
 db.sequelize.sync().then(function () {
   app.listen(PORT, () => {

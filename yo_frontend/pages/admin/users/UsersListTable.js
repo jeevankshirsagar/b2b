@@ -134,9 +134,9 @@ class UsersListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4 className="s.tabel_title">Distributor List</h4>} collapse close>
+        <Widget title={<h3 className="s.tabel_title fw-bold">Retailer List</h3>} collapse close>
           <Link href="/admin/users/new">
-            <button className="btn btn-primary" type="button">
+            <button className="btn btn-dark" type="button" style={{borderRadius : '12px'}}>
               Add Retailer
               
             </button>
@@ -157,13 +157,13 @@ class UsersListTable extends Component {
             tableContainerClass={`table-responsive table-striped table-hover`}
           >
             
-            <TableHeaderColumn
+            {/* <TableHeaderColumn
               dataField="avatar"
               dataSort
               dataFormat={dataFormat.imageFormatter}
             >
               <span className="fs-sm">Avatar</span>
-            </TableHeaderColumn>
+            </TableHeaderColumn> */}
             
             <TableHeaderColumn dataField="firstName" dataSort>
               <span className="fs-sm">First Name</span>
@@ -193,6 +193,11 @@ class UsersListTable extends Component {
               <span className="fs-sm">Balance</span>
             </TableHeaderColumn>
 
+            
+            <TableHeaderColumn dataField="duedate" dataSort>
+              <span className="fs-sm">Due Date</span>
+            </TableHeaderColumn>
+
             {/* <TableHeaderColumn
               dataField="disabled"
               dataSort
@@ -217,18 +222,19 @@ class UsersListTable extends Component {
           size="sm"
           isOpen={this.props.modalOpen}
           toggle={() => this.closeModal()}
+          style={{width: '30%'}}
         >
-          <ModalHeader toggle={() => this.closeModal()}>
-            Confirm delete
+          <ModalHeader toggle={() => this.closeModal()} className="fw-bold">
+            Confirm Delete?
           </ModalHeader>
-          <ModalBody className="bg-white">
-            Are you sure you want to delete this item?
+          <ModalBody className="bg-white text-center">
+            After this action all Data related to this Retailer will erased from dashboard, Are you sure you want to delete this item?
           </ModalBody>
           <ModalFooter>
-            <Button color="secondary" onClick={() => this.closeModal()}>
+            <Button color="secondary"  style={{ borderRadius: '10px'}} onClick={() => this.closeModal()}>
               Cancel
             </Button>
-            <Button color="primary" onClick={() => this.handleDelete()}>
+            <Button color="primary" style={{ borderRadius: '10px'}} onClick={() => this.handleDelete()}>
               Delete
             </Button>
           </ModalFooter>

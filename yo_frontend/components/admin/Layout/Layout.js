@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { connect } from "react-redux";
+import { connect, useSelector } from "react-redux";
 import { withRouter } from 'next/router'
 import Loader from "components/admin/Loader";
 import { TransitionGroup, CSSTransition } from "react-transition-group";
@@ -10,7 +10,7 @@ import ErrorPage from "../../../pages/404";
 import HeaderComp from 'components/e-commerce/Header';
 import FooterComp from 'components/e-commerce/Footer';
 import Helper from "../Helper";
-import Sidebar from "../Sidebar";
+import Sidebar from "../Sidebar/Sidebar";
 import {
   openSidebar,
   closeSidebar,
@@ -27,6 +27,9 @@ class Layout extends React.Component {
     sidebarOpened: PropTypes.bool,
     dispatch: PropTypes.func.isRequired,
   };
+
+
+  
 
   constructor(props) {
     super(props);
@@ -64,17 +67,20 @@ class Layout extends React.Component {
   }
 
   render() {
-    if (!this.props.currentUser && !this.props.router.pathname.includes('documentation')) {
-      if (this.props.loadingInit) return <Loader />
+    const { currentUser, loadingInit, router } = this.props; // Destructure currentUser from props
+  
+    if (!currentUser && !router.pathname.includes('documentation')) {
+      // if (loadingInit) return
+      //  <Loader />
       return (
         <>
           <HeaderComp />
-            <ErrorPage />
+          <ErrorPage />
           <FooterComp />
         </>
       )
     }
-
+  
     return (
       <div
         className={[
@@ -94,7 +100,8 @@ class Layout extends React.Component {
           <Header />
           <Hammer onSwipe={this.handleSwipe}>
             <main className={s.content}>
-              <BreadcrumbHistory url={this.props.router.pathname} />
+              {/* Access currentUser from the destructured props */}
+              {currentUser && currentUser.role == "admin" && <BreadcrumbHistory url={router.pathname} />}
               <TransitionGroup>
                 <CSSTransition
                   classNames="fade"
@@ -106,7 +113,7 @@ class Layout extends React.Component {
               <footer className={s.contentFooter}>
                 WTS Ecommerce - Made by{" "}
                 <a
-                  href="https://WTS.com"
+                  href="https://exigirtech.com"
                   rel="nofollow noopener noreferrer"
                   target="_blank"
                 >
@@ -119,6 +126,7 @@ class Layout extends React.Component {
       </div>
     );
   }
+  
 }
 
 function mapStateToProps(store) {

@@ -19,6 +19,7 @@ import actions from "redux/actions/feedback/feedbackListActions";
 import * as dataFormat from "./FeedbackDataFormatters";
 import FeedbackForm from "../feedback"; // Import FeedbackForm component
 import feedbackFields from "./feedbackFields";
+import 'bootstrap-icons/font/bootstrap-icons.css'
 
 // import AddCircleIcon from '@mui/icons-material/AddCircle';
 
@@ -36,7 +37,7 @@ class FeedbackListTable extends Component {
 
   async componentDidMount() {
     try {
-      const response = await axios.get('http://localhost:8080/api/feedback/get');
+      const response = await axios.get('http://srv481744.hstgr.cloud:8080/api/feedback/get');
       const feedbackData = response.data;
 
       this.setState({ feedbackData });
@@ -92,8 +93,8 @@ class FeedbackListTable extends Component {
         Edit
       </Button>
         &nbsp;&nbsp;
-        <Button color="danger" size="xs" onClick={() => this.openModal(cell)}>
-          Delete
+        <Button color="danger" size="s"  style={{borderRadius: '7px'}} onClick={() => this.openModal(cell)}>
+        <i className={"bi bi-trash-fill"}></i>
         </Button>
       </div>
     )
@@ -138,9 +139,9 @@ class FeedbackListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4>Enquiries</h4>} collapse close>
+        <Widget title={<h3 className="fw-bold">Enquiries</h3>} collapse close>
           <Link href="/admin/feedback/new">
-            <button className="btn btn-primary" type="button">
+            <button className="btn btn-dark" style={{borderRadius: '12px'}}type="button">
              Add Enquiry
               
             </button>

@@ -30,7 +30,7 @@ const FeedbackForm = (props) => {
     const { id, ...data } = PreparedValues(feedbackFields, values || {});
   
     try {
-      const response = await fetch("http://localhost:8080/api/feedback/", {
+      const response = await fetch("http://srv481744.hstgr.cloud:8080/api/feedback/add", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -63,7 +63,7 @@ const FeedbackForm = (props) => {
   };
   const fetchProducts = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/products/", {
+      const response = await fetch("http://srv481744.hstgr.cloud:8080/api/products/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

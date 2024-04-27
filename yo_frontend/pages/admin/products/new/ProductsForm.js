@@ -96,7 +96,7 @@ class ProductsForm extends Component {
 
                 <InputFormItem name={"keywords"} schema={productsFields} />
 
-                <InputFormItem name={"meta_author"} schema={productsFields} />
+                {/* <InputFormItem name={"meta_author"} schema={productsFields} />
 
                 <InputFormItem name={"meta_og_title"} schema={productsFields} />
 
@@ -110,7 +110,9 @@ class ProductsForm extends Component {
 
                 <InputFormItem name={"post_twitter"} schema={productsFields} />
 
-                <InputNumberFormItem name={"rating"} schema={productsFields} />
+                <InputNumberFormItem name={"rating"} schema={productsFields} /> */}
+
+<InputFormItem name={"dp"} schema={productsFields} />
 
                 <RadioFormItem name={"status"} schema={productsFields} />
 

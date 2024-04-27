@@ -1,7 +1,7 @@
 const hostApi =
   process.env.NODE_ENV === "development"
-    ? "http://localhost"
-    : "https://site_url.com";
+  ? "http://srv481744.hstgr.cloud"
+   :  "http://srv481744.hstgr.cloud";
 const portApi =
   process.env.NODE_ENV === "development" ? "8080" : '';
 const baseURLApi = `${hostApi}:${portApi}/api`;
@@ -10,7 +10,9 @@ export default {
   hostApi,
   portApi,
   baseURLApi,
-  remote: "https://site_url.com/api/:41521",
+  remote: "http://srv481744.hstgr.cloud/api:41521",
+
+  
   isBackend: process.env.REACT_APP_BACKEND,
   app: {
     colors: {

@@ -1,7 +1,3 @@
-// @tailwind base;
-// @tailwind components;
-// @tailwind utilities;
-
 html {
   font-weight: 100;
   font-size: $font-size-initial;
@@ -11,12 +7,16 @@ html {
 body {
   overflow-x: hidden;
   color: $text-color;
+  background-color: #f1f1f1;
+  
 }
 
 html,
 body,
 #app {
   height: 100%;
+  width: 100%;
+  
 }
 
 a,

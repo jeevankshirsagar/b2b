@@ -4,6 +4,7 @@ const crypto = require("crypto");
 const Utils = require("../utils");
 const bcrypt = require("bcrypt");
 
+
 const Sequelize = db.Sequelize;
 const Op = Sequelize.Op;
 
@@ -25,7 +26,7 @@ module.exports = class UsersDBApi {
         disabled: data.disabled || false,
         password: hashedPassword || null,
         emailVerified: data.emailVerified || true,
-        userVerified: data.userVerified || true,
+        // userVerified: data.userVerified || true,
         emailVerificationToken: data.emailVerificationToken || null,
         emailVerificationTokenExpiresAt:
           data.emailVerificationTokenExpiresAt || null,
@@ -68,10 +69,71 @@ module.exports = class UsersDBApi {
     }
   }
 
+
   //Update
+  // static async update(id, data, options) {
+  //   console.log(data);
+  //   const currentUser = (options && options.currentUser) || { id: null };
+  //   const transaction = (options && options.transaction) || undefined;
+
+  //   const users = await db.users.findByPk(id, {
+  //     transaction,
+  //   });
+
+  //   await users.update(
+  //     {
+  //       firstName: data.firstName || null,
+  //       lastName: data.lastName || null,
+  //       phoneNumber: data.phoneNumber || null,
+  //       email: data.email || null,
+  //       role: data.role || user,
+  //       disabled: data.disabled || false,
+  //       password: data.password || null,
+  //       emailVerified: data.emailVerified || false,
+  //       emailVerificationToken: data.emailVerificationToken || null,
+  //       emailVerificationTokenExpiresAt:
+  //         data.emailVerificationTokenExpiresAt || null,
+  //       passwordResetToken: data.passwordResetToken || null,
+  //       passwordResetTokenExpiresAt: data.passwordResetTokenExpiresAt || null,
+  //       provider: data.provider || null,
+
+  //       bname: data.bname || null,
+  //       baddress: data.baddress || null,
+  //       cin: data.cin || null,
+  //       gst: data.gst || null,
+  //       balance: data.balance || null,
+  //       duedate: data.duedate || null,
+  //       aadhar: data.aadhar || null,
+  //       aadhar_url: data.aadhar_url || null,
+  //       aadhar_back_url: data.aadhar_back_url || null,
+  //       pan: data.pan || null,
+  //       pan_url: data.pan_url || null,
+
+  //       updatedById: currentUser.id,
+  //     },
+  //     { transaction }
+  //   );
+
+  //   await users.setWishlist(data.wishlist || [], {
+  //     transaction,
+  //   });
+
+  //   await FileDBApi.replaceRelationFiles(
+  //     {
+  //       belongsTo: db.users.getTableName(),
+  //       belongsToColumn: "avatar",
+  //       belongsToId: users.id,
+  //     },
+  //     data.avatar,
+  //     options
+  //   );
+
+  //   return users;
+  // }
+
   static async update(id, data, options) {
     console.log(data);
-    const currentUser = (options && options.currentUser) || { id: null };
+    const currentUser = (options && options.currentUser) || {id: null};
     const transaction = (options && options.transaction) || undefined;
 
     const users = await db.users.findByPk(id, {
@@ -80,51 +142,71 @@ module.exports = class UsersDBApi {
 
     await users.update(
       {
-        firstName: data.firstName || null,
-        lastName: data.lastName || null,
-        phoneNumber: data.phoneNumber || null,
-        email: data.email || null,
-        role: data.role || user,
-        disabled: data.disabled || false,
-        password: data.password || null,
-        userVerified: data.userVerified || false,
-        emailVerificationToken: data.emailVerificationToken || null,
-        emailVerificationTokenExpiresAt:
-          data.emailVerificationTokenExpiresAt || null,
-        passwordResetToken: data.passwordResetToken || null,
-        passwordResetTokenExpiresAt: data.passwordResetTokenExpiresAt || null,
-        provider: data.provider || null,
-
+firstName: data.firstName
+        ||
+        null,
+lastName: data.lastName
+        ||
+        null,
+phoneNumber: data.phoneNumber
+        ||
+        null,
+email: data.email
+        ||
+        null,
+role: data.role
+        ||
+        user,
+disabled: data.disabled
+        ||
+        false,
+password: data.password
+        ||
+        null,
+emailVerified: data.emailVerified
+        ||
+        true,
+emailVerificationToken: data.emailVerificationToken
+        ||
+        null,
+emailVerificationTokenExpiresAt: data.emailVerificationTokenExpiresAt
+        ||
+        null,
+passwordResetToken: data.passwordResetToken
+        ||
+        null,
+passwordResetTokenExpiresAt: data.passwordResetTokenExpiresAt
+        ||
+        null,
+provider: data.provider
+        ||
+        null,
         bname: data.bname || null,
-        baddress: data.baddress || null,
-        cin: data.cin || null,
-        gst: data.gst || null,
-        balance: data.balance || null,
-        duedate: data.duedate || null,
-        aadhar: data.aadhar || null,
-        aadhar_url: data.aadhar_url || null,
-        aadhar_back_url: data.aadhar_back_url || null,
-        pan: data.pan || null,
-        pan_url: data.pan_url || null,
+              baddress: data.baddress || null,
+              cin: data.cin || null,
+              gst: data.gst || null,
+              balance: data.balance || null,
+              duedate: data.duedate || null,
+              aadhar: data.aadhar || null,
+              pan: data.pan || null,
 
         updatedById: currentUser.id,
       },
-      { transaction }
+      {transaction},
     );
 
-    await users.setWishlist(data.wishlist || [], {
-      transaction,
-    });
 
-    await FileDBApi.replaceRelationFiles(
-      {
-        belongsTo: db.users.getTableName(),
-        belongsToColumn: "avatar",
-        belongsToId: users.id,
-      },
-      data.avatar,
-      options
-    );
+
+    // await FileDBApi.replaceRelationFiles(
+    //   {
+    //     belongsTo: db.users.getTableName(),
+    //     belongsToColumn: 'avatar',
+    //     belongsToId: users.id,
+    //   },
+    //   data.avatar,
+    //   options,
+    // );
+
 
     return users;
   }
@@ -150,6 +232,8 @@ module.exports = class UsersDBApi {
 
     return users;
   }
+
+  
 
   static async findBy(where, options) {
     const transaction = (options && options.transaction) || undefined;

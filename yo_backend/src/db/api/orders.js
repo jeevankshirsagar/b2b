@@ -18,12 +18,13 @@ module.exports = class OrdersDBApi {
 order_date: data.order_date 
         ||
         null,
-amount: data.amount 
+        amount: data.amount 
         ||
         null,
 status: data.status 
         ||
         null,
+        order_no: data.order_no,
 
         importHash: data.importHash || null,
         createdById: currentUser.id,
@@ -146,6 +147,8 @@ status: data.status
     var offset = 0;
     var orderBy = null;
 
+    const userId = options.userId;
+
     const transaction = (options && options.transaction) || undefined;
     let where = {};
     let include = [
@@ -247,6 +250,14 @@ status: data.status
         };
       }
 
+      if (userId) {
+        where = {
+          ...where,
+          userId: userId,
+        };
+      }
+
+
       if (filter.product) {
         var listItems = filter.product.split('|').map(item => {
           return { ['productId']: Utils.uuid(item) }
@@ -306,10 +317,9 @@ status: data.status
       }
     }
 
-    let { rows, count } = await db.orders.findAndCountAll(
-      {
-        where,
-        include,
+    let { rows, count } = await db.orders.findAndCountAll({
+    where,
+    include,
         limit: limit ? Number(limit) : undefined,
         offset: offset ? Number(offset) : undefined,
         order: orderBy
@@ -345,7 +355,9 @@ status: data.status
 
     const records = await db.orders.findAll({
       attributes: [ 'id', 'product' ],
-      where,
+      where: [userId.userId
+      ],
+
       limit: limit ? Number(limit) : undefined,
       orderBy: [['product', 'ASC']],
     });

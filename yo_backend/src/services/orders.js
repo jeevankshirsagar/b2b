@@ -2,7 +2,33 @@
 const db = require('../db/models');
 const OrdersDBApi = require('../db/api/orders');
 
+
+
 module.exports = class OrdersService {
+
+  static async findAll(filter, currentUser) {
+    try {
+      let orders;
+
+      alert("current user is retailer " + currentUser.role)
+
+      if (currentUser && currentUser.role === 'user') {
+        // Fetch orders associated with the user ID for regular users
+
+
+        orders = await OrdersDBApi.findAll({ user: currentUser.id  }, {});
+      } 
+      else {
+        // Fetch all orders for admin
+        orders = await OrdersDBApi.findAll(filter, {});
+      }
+
+      return orders;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   static async create(data, currentUser) {
     const transaction = await db.sequelize.transaction();
     try {

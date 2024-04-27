@@ -13,16 +13,13 @@ module.exports = function (sequelize, DataTypes) {
         defaultValue: DataTypes.UUIDV4,
         primaryKey: true,
       },
-      text: {
+      offertext: {
         type: DataTypes.STRING,
       },
       description: {
-        type: DataTypes.STRING,
-      },
-      //   imageurl: {
-      //     type: DataTypes.STRING,
-
-      // },
+        type: DataTypes.STRING, 
+     
+    },
     },
     {
       timestamps: true,
