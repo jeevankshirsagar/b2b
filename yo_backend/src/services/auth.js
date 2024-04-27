@@ -79,55 +79,55 @@ class Auth {
   }
 
   static async signin(email, password, options = {}) {
-    const user = await UsersDBApi.findBy({email});
+      const user = await UsersDBApi.findBy({email});
 
-    if (!user) {
-      throw new ValidationError(
-        'auth.userNotFound',
-      );
-    }
-
-    if (user.disabled) {
-      throw new ValidationError(
-        'auth.userDisabled',
-      );
-    }
-
-    if (!user.password) {
-      throw new ValidationError(
-        'auth.wrongPassword',
-      );
-    }
-
-    if (!EmailSender.isConfigured) {
-      user.emailVerified = true;
-    }
-
-    if (!user.emailVerified) {
-      throw new ValidationError(
-        'auth.userNotVerified',
-      );
-    }
-
-    const passwordsMatch = await bcrypt.compare(
-      password,
-      user.password,
-    );
-
-    if (!passwordsMatch) {
-      throw new ValidationError(
-        'auth.wrongPassword',
-      );
-    }
-
-    const data = {
-      user: {
-        id: user.id,
-        email: user.email
+      if (!user) {
+        throw new ValidationError(
+            'auth.userNotFound',
+        );
       }
-    };
 
-    return helpers.jwtSign(data);
+      if (user.disabled) {
+        throw new ValidationError(
+            'auth.userDisabled',
+        );
+      }
+
+      if (!user.password) {
+        throw new ValidationError(
+            'auth.wrongPassword',
+        );
+      }
+
+      if (!EmailSender.isConfigured) {
+        user.emailVerified = true;
+      }
+
+      if (!user.emailVerified) {
+        throw new ValidationError(
+            'auth.userNotVerified',
+        );
+      }
+
+      const passwordsMatch = await bcrypt.compare(
+          password,
+          user.password,
+      );
+
+      if (!passwordsMatch) {
+        throw new ValidationError(
+            'auth.wrongPassword',
+        );
+      }
+
+      const data = {
+        user: {
+          id: user.id,
+          email: user.email
+        }
+      };
+
+      return helpers.jwtSign(data);
   }
 
   static async sendEmailAddressVerificationEmail(

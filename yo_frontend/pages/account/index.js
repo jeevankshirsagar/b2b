@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Progress, Button, Table } from "reactstrap";
+import { Container, Row, Col, Button, Table } from "reactstrap";
 import Head from "next/head";
 import { useSelector, useDispatch } from "react-redux";
 import s from "./Account.module.scss";
@@ -9,7 +9,7 @@ import { logoutUser } from "redux/actions/auth";
 import axios from "axios";
 import dynamic from "next/dynamic";
 const ApexChart = dynamic(() => import("react-apexcharts"), { ssr: true });
-import { chartData, splineArea } from "../admin/dashboard/chartsMock";
+import { splineArea } from "../admin/dashboard/chartsMock";
 import sa from "../admin/dashboard/Dashboard.module.scss";
 
 const Index = () => {
@@ -42,7 +42,6 @@ const Index = () => {
       })
       .then((data) => {
         setSettings(data.settings); // Corrected to setSettings(data.settings)
-        console.log(data.settings);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);

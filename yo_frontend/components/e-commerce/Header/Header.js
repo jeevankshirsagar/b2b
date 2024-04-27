@@ -258,27 +258,47 @@ class Header extends React.Component {
           )}
 
           <Nav>
-            <NavItem className={"d-flex align-items-center"}>
+            <NavItem className="d-flex align-items-center">
               {this.state.innerWidth >= 768 && (
-                <>
-                  <li className={s.nav__menuItem} style={{ width: 90 }}>
-                    <ActiveLink
-                      className={s.navLink}
-                      onMouseOver={this.toggleHeightOne}
-                      href={"/account"} // Adjust the href as needed
-                    >
-                      {this.props.currentUser ? ( // Check if currentUser exists
-                        <span className={s.dropdownItemm}>
-                          {this.props.currentUser.firstName}
-                        </span>
+                  <>
+                    <li className={s.nav__menuItem} style={{ width: 90 }}>
+                      {this.props.currentUser ? (
+                          <ActiveLink className={s.navLink} onMouseOver={this.toggleHeightOne} href="/account">
+                            <span className={s.dropdownItemm}>{this.props.currentUser.firstName}</span>
+                          </ActiveLink>
                       ) : (
-                        <span className={s.dropdownItemm}>Login</span> // Display "Login" text if currentUser is not available
+                          <ActiveLink className={s.navLink} onMouseOver={this.toggleHeightOne} href="/login">
+                            <span className={s.dropdownItemm}>Login</span>
+                          </ActiveLink>
                       )}
-                    </ActiveLink>
-                  </li>
-                </>
+                    </li>
+                  </>
               )}
             </NavItem>
+            {/*<NavItem className={"d-flex align-items-center"}>*/}
+            {/*  {this.state.innerWidth >= 768 && (*/}
+            {/*    <>*/}
+            {/*      <li className={s.nav__menuItem} style={{ width: 90 }}>*/}
+
+
+            {/*        <ActiveLink*/}
+            {/*          className={s.navLink}*/}
+            {/*          onMouseOver={this.toggleHeightOne}*/}
+            {/*          href={"/account"} // Adjust the href as needed*/}
+            {/*        >*/}
+            {/*          {this.props.currentUser ? ( // Check if currentUser exists*/}
+            {/*            <span className={s.dropdownItemm}>*/}
+            {/*              {this.props.currentUser.firstName}*/}
+            {/*            </span>*/}
+            {/*          ) : (*/}
+            {/*            <span className={s.dropdownItemm}>Login</span> // Display "Login" text if currentUser is not available*/}
+            {/*          )}*/}
+            {/*        </ActiveLink>*/}
+
+            {/*      </li>*/}
+            {/*    </>*/}
+            {/*  )}*/}
+            {/*</NavItem>*/}
           </Nav>
         </Container>
       </Navbar>
