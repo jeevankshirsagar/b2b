@@ -177,7 +177,7 @@ useEffect(() => {
       </Head>
 
 
-      {currentUser ? (
+
         <>
         {showPopup && (
           <div className={`${s.popup}`}>
@@ -598,9 +598,7 @@ useEffect(() => {
             </Container>
           </div>
         </>
-      ) : (
-        <Login />
-      )}
+
     </>
   );
 };

@@ -64,7 +64,7 @@ class Header extends React.Component {
   doLogout() {
     this.props.dispatch(logoutUser());
     window.location.reload();
-    this.props.router.push('/shop');
+    this.props.router.push('/');
   }
   
 
