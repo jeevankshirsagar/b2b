@@ -14,31 +14,22 @@ import {
 import s from "pages/index.module.scss";
 import Link from "next/link";
 import axios from "axios";
-import Carousel from "react-bootstrap/Carousel";
 import Head from "next/head";
 
-import arrowRight from "public/images/e-commerce/home/arrow-right.svg";
 
 import InfoBlock from "components/e-commerce/InfoBlock";
 import InstagramWidget from "components/e-commerce/Instagram";
-import article1 from "public/images/e-commerce/home/article1.jpg";
-import article2 from "public/images/e-commerce/home/article2.jpg";
-import article3 from "public/images/e-commerce/home/article3.jpg";
 
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 
-import Countdown from "./home/Countdown";
-import rating from "../public/images/e-commerce/details/stars.svg";
 import productsListActions from "../redux/actions/products/productsListActions";
 
 import Loader from "components/admin/Loader/Loader";
-import b2bformm from "../All_Images/form.png"
-// mobile input
-// import PhoneInput from 'react-native-international-phone-number';
+
+import b2bformm from "public/all_images/b2bformm.jpg";
 import PhoneInput from 'react-phone-number-input'
 import 'react-phone-number-input/style.css'
-import { TextArea } from "react-mde";
 
 
 
@@ -293,7 +284,7 @@ const Index = ({ products: serverSideProducts }) => {
 
     <Modal isOpen={isB2BModalOpen} toggle={() => setB2BModalOpen(false)} style={{marginTop: '10px'}}>
       <ModalHeader  className='border-0' toggle={() => setB2BModalOpen(false)}>
-        <img 
+        <Image
           src={b2bformm} 
           alt="offer image" 
           style={{
