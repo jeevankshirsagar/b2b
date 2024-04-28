@@ -67,7 +67,7 @@ const BreadcrumbHistory = ({ url, key }) => {
                 {length === index + 1 ? (
                     item
                 ) : (
-                    <Link href={middlewareUrl}>{item}</Link>
+                    <Link href={middlewareUrl} legacyBehavior>{item}</Link>
                 )}
               </BreadcrumbItem>
             }

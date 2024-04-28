@@ -1,6 +1,9 @@
 const withImages = require('next-images');
 
 module.exports = withImages({
+    experimental : {
+      newNextLinkBehaviour : false,
+    },
     images: {
         dangerouslyAllowSVG: true,
         disableStaticImages: true,

@@ -57,18 +57,18 @@ const Footer = () => {
 
 
               <div className={`${s.socialLinks}`} style={{ marginLeft: '6px', paddingBottom: '60px' }}>
-                <Link href="/">
+                <Link href="/" legacyBehavior>
                   <a className={s.socialLink} target="_blank" rel="noopener noreferrer">
                     <Google />
                   </a>
                 </Link>
-                <Link href="/">
+                <Link href="/" legacyBehavior>
                   <a className={s.socialLink} target="_blank" rel="noopener noreferrer">
                     <Twitter />
                   </a>
                 </Link>
 
-                <Link href="/">
+                <Link href="/" legacyBehavior>
                   <a className={s.socialLink} target="_blank" rel="noopener noreferrer">
                     <Facebook />
                   </a>
@@ -81,36 +81,36 @@ const Footer = () => {
                 <Col md={3} sm={6} xs={12}>
                   <section className={`${s.top_cust} img-fluid`}>
                     <h5 className={"text-primary fw-bold text-uppercase mb-4"}>Company Details</h5>
-                    <Link href="https://maps.app.goo.gl/H9LRo4zf4dDNdBbZA"><h6 className={`${s.navigationLink}`}> 09, Basement Ashoka Shopping Centre, Lokmanya Tilak Rd, Mumbai, Maharashtra 400001</h6></Link>
-                    <Link href="#"><h6 className={`mb-3 ${s.navigationLink}`}>yodigital.com</h6></Link>
-                    <Link href="#"><h6 className={`mb-3 ${s.navigationLink}`}>+91 9987957863</h6></Link>
+                    <Link href="https://maps.app.goo.gl/H9LRo4zf4dDNdBbZA" legacyBehavior><h6 className={`${s.navigationLink}`}> 09, Basement Ashoka Shopping Centre, Lokmanya Tilak Rd, Mumbai, Maharashtra 400001</h6></Link>
+                    <Link href="#" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>yodigital.com</h6></Link>
+                    <Link href="#" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>+91 9987957863</h6></Link>
                   </section>
                 </Col>
 
                 <Col md={3} sm={6} xs={12}>
                   <section className={`${s.top_com} img-fluid`}>
                     <h5 className={"text-primary fw-bold text-uppercase mb-4"}>company</h5>
-                    <Link href="/shop"><h6 className={`mb-3 ${s.navigationLink}`}>shop</h6></Link>
-                    <Link href="/faq"><h6 className={`mb-3 ${s.navigationLink}`}>FAQs</h6></Link>
+                    <Link href="/shop" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>shop</h6></Link>
+                    <Link href="/faq" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>FAQs</h6></Link>
                   </section>
                 </Col>
 
                 <Col md={3} sm={6} xs={12}>
                   <section className={`${s.top_my} img-fluid`}>
                     <h5 className={"text-primary fw-bold text-uppercase mb-4"}>my account</h5>
-                    <Link href="/account"><h6 className={`mb-3 ${s.navigationLink}`}>account</h6></Link>
-                    <Link href="/"><h6 className={`mb-3 ${s.navigationLink}`}>Help & Support</h6></Link>
+                    <Link href="/account" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>account</h6></Link>
+                    <Link href="/" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>Help & Support</h6></Link>
                   </section>
                 </Col>
 
                 <Col md={3} sm={6} xs={12}>
                   <section className={`${s.top_cust} img-fluid`}>
                     <h5 className={"text-primary fw-bold text-uppercase mb-4"}>customer service</h5>
-                    <Link href="/contact"><h6 className={`${s.navigationLink}`}>Help & Contact Us</h6></Link>
+                    <Link href="/contact" legacyBehavior><h6 className={`${s.navigationLink}`}>Help & Contact Us</h6></Link>
 
-                    <Link href="/service-center"><h6 className={`mb-3 ${s.navigationLink}`}>Service Centers</h6></Link>
-                    <Link href="http://srv481744.hstgr.cloud:8081/"><h6 className={`mb-3 ${s.navigationLink}`}>Online Stores</h6></Link>
-                    <Link href="/terms"><h6 className={`mb-3 ${s.navigationLink}`}>Terms & Conditions</h6></Link>
+                    <Link href="/service-center" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>Service Centers</h6></Link>
+                    <Link href="http://srv481744.hstgr.cloud:8081/" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>Online Stores</h6></Link>
+                    <Link href="/terms" legacyBehavior><h6 className={`mb-3 ${s.navigationLink}`}>Terms & Conditions</h6></Link>
                   </section>
                 </Col>
               </Row>

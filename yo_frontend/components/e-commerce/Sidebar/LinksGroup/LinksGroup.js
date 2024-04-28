@@ -73,7 +73,7 @@ class LinksGroup extends Component {
               this.props.className
             )}
           >
-            <Link href={this.props.link}>
+            <Link legacyBehavior href={this.props.link}>
               <a>
               {this.props.iconType === "text" ? (
                 <span className={classnames("icon", s.icon)}>
@@ -116,7 +116,7 @@ class LinksGroup extends Component {
           {/*  }}*/}
           {/*  exact={exact}*/}
           {/*>*/}
-          <Link href={this.props.link}
+          <Link legacyBehavior href={this.props.link}
                 onClick={(e) => {
                   // able to go to link is not available(for Demo)
                   if (this.props.link.includes("menu")) {
