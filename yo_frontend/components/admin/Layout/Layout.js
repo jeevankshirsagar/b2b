@@ -100,8 +100,8 @@ class Layout extends React.Component {
           <Header />
           <Hammer onSwipe={this.handleSwipe}>
             <main className={s.content}>
-              {/* Access currentUser from the destructured props */}
-              {currentUser && currentUser.role == "admin" && <BreadcrumbHistory url={router.pathname} />}
+              
+              {/* {currentUser && currentUser.role == "admin" && <BreadcrumbHistory url={router.pathname} />} */}
               <TransitionGroup>
                 <CSSTransition
                   classNames="fade"

@@ -27,6 +27,7 @@ import Widget from "components/admin/Widget";
 import 'bootstrap-icons/font/bootstrap-icons.css'
 import UseAnimations from "react-useanimations";
 import trash2 from 'react-useanimations/lib/trash2';
+import download from 'react-useanimations/lib/download';
 
 
 
@@ -114,8 +115,8 @@ class OrdersListTable extends Component {
           Edit
         </Button>
         &nbsp;&nbsp;
-        <Button color="secondary" size="s" style={{borderRadius: '7px'}} onClick={() => this.openModal(cell)}>
-        <UseAnimations animation={trash2} size={20} style={{ color: 'white' }} />
+        <Button color="none" size="s" style={{borderRadius: '7px'}} onClick={() => this.openModal(cell)}>
+        <UseAnimations animation={trash2} size={24}  strokeColor="red" style={{ color: 'white' }} />
         </Button>
       </div>
     );
@@ -160,16 +161,16 @@ class OrdersListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h3 className="fw-bold">Orders</h3>} collapse close>
+        <Widget title={<h3 className="fw-bold">Orders</h3>} >
           <Link href="/admin/orders/new">
-            <button className="btn btn-dark" style={{borderRadius: '12px'}} type="button">
+            <button className="btn btn-dark fw-bold" style={{borderRadius: '12px'}} type="button">
               New Order
             </button>
           </Link>
 
 
-          <Button color="success" className="ms-2" onClick={this.exportData}>
-            Export
+          <Button color="none" className="ms-2" onClick={this.exportData}>
+          <UseAnimations animation={download} size={28} strokeColor="green" style={{ color: 'none' }} />
           </Button>
 
           <BootstrapTable
@@ -180,7 +181,13 @@ class OrdersListTable extends Component {
             options={options}
             search
             tableContainerClass={`table-responsive table-striped table-hover`}
+            selectRow={true}
           >
+
+
+<TableHeaderColumn dataField="order_no" dataSort>
+              <span className="fs-sm">Order No.</span>
+            </TableHeaderColumn>
 
             <TableHeaderColumn
               dataField="order_date"
@@ -190,9 +197,7 @@ class OrdersListTable extends Component {
               <span className="fs-sm">Order date</span>
             </TableHeaderColumn>
 
-            <TableHeaderColumn dataField="order_no" dataSort>
-              <span className="fs-sm">Order No.</span>
-            </TableHeaderColumn>
+
 
 
             <TableHeaderColumn

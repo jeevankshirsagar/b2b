@@ -112,7 +112,7 @@ class CategoriesListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h3 className="fw-bold">Categories</h3>} collapse close>
+        <Widget title={<h3 className="fw-bold">Categories</h3>} >
           <Link href="/admin/categories/new">
             <button className="btn btn-dark fw-bold " style={{ borderRadius: '10px'}} type="button">
             <i className="bi bi-plus" ></i>Add Category

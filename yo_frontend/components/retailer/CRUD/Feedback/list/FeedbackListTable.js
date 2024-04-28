@@ -114,7 +114,7 @@ class FeedbackListTable extends Component {
 
     return (
         <div>
-          <Widget title={<h4>Feedback</h4>} collapse close>
+          <Widget title={<h4>Feedback</h4>} >
             <Link to="/admin/feedback/new">
               <button
                 className="btn btn-primary"

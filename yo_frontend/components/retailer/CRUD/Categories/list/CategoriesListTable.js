@@ -112,7 +112,7 @@ class CategoriesListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4>Categories</h4>} collapse close>
+        <Widget title={<h4>Categories</h4>} >
           <Link to="/admin/categories/new">
             <button className="btn btn-primary" type="button">
               New

@@ -48,7 +48,7 @@ class ProductsForm extends Component {
     const { saveLoading } = this.props;
 
     return (
-      <Widget title={<h4>{this.title()}</h4>} collapse close>
+      <Widget title={<h4>{this.title()}</h4>} >
         <Formik
           onSubmit={this.handleSubmit}
           initialValues={this.iniValues()}

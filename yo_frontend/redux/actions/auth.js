@@ -98,13 +98,11 @@ export function loginUser(creds) {
           const token = res.data;
           dispatch(receiveToken(token));
           dispatch(doInit());
-          if (typeof window !== 'undefined') {
-            window.location.href = "/account"
-          }
+          if (typeof window !== 'undefined') { window.location.href = "/admin/dashboard" } 
         })
         .catch((err) => {
           if(err.code === 'ERR_BAD_REQUEST') {
-            alert(err.response.data);
+            toast.error(err.response.data);
             console.error(err.response.data);
           }
 

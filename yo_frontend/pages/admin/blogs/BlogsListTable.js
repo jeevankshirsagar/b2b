@@ -111,7 +111,7 @@ class BlogsListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h2 className="fw-bold">Announcements</h2>} collapse close>
+        <Widget title={<h2 className="fw-bold">Announcements</h2>} >
           <Link href="/admin/blogs/new">
           <button className="btn btn-dark fw-bold " style={{ borderRadius: '10px'}} type="button">
   <i className="bi bi-plus" ></i>Add Update

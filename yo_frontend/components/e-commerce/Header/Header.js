@@ -8,6 +8,8 @@ import {
   Container,
   Button,
   UncontrolledDropdown,
+  DropdownToggle,
+  DropdownMenu,
 } from "reactstrap";
 import AnimateHeight from "react-animate-height";
 import ActiveLink from "components/admin/ActiveLink/ActiveLink";
@@ -23,27 +25,22 @@ import {
 } from "redux/actions/navigation";
 import axios from "axios";
 
-import MegaMenu from "./MegaMenu";
-
-import { Modal } from "react-bootstrap";
-
 class Header extends React.Component {
   constructor(props) {
     super(props);
+    this.switchSidebar = this.switchSidebar.bind(this);
+
     this.state = {
-      categories: [], // Initialize categories as an empty array
       heightOne: 0,
       heightTwo: 0,
       heightThree: 0,
       heightFour: 0,
       innerWidth: typeof window !== "undefined" && window.innerWidth,
       count: 0,
-      showModal: false,
-      hoveredItem: null,
     };
   }
 
-  switchSidebar = () => {
+  switchSidebar() {
     if (this.props.sidebarOpened) {
       this.props.dispatch(closeSidebar());
       this.props.dispatch(changeActiveSidebarItem(null));
@@ -53,44 +50,50 @@ class Header extends React.Component {
       this.props.dispatch(openSidebar());
       this.props.dispatch(changeActiveSidebarItem(paths.join("/")));
     }
-  };
+  }
 
+
+  // const doLogout = async () => {
+  //   dispatch(logoutUser());
+  //   try {
+  //     await router.push("/");
+  //     window.location.reload();
+  //   } catch (error) {
+  //     console.error("Error redirecting to home page:", error);
+  //   }
+  // };
   componentDidMount() {
-    window.addEventListener("resize", this.handleResize);
-    this.fetchCategories();
-    this.fetchUserOrders();
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("resize", this.handleResize);
-  }
-
-  handleResize = () => {
-    this.setState({ innerWidth: window.innerWidth });
-  };
-
-  fetchCategories = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/categories/");
-      this.setState({ categories: response.data });
-    } catch (error) {
-      console.error("Error fetching categories:", error);
-    }
-  };
-
-  fetchUserOrders = () => {
+    typeof window !== "undefined" &&
+      window.addEventListener("resize", () => {
+        this.setState({ innerWidth: window.innerWidth });
+      });
     if (this.props.currentUser) {
       axios
         .get(`/orders?user=${this.props.currentUser.id}&status=in+cart`)
         .then((res) => {
-          this.setState({ count: res.data.count });
+          this.setState({
+            count: res.data.count,
+          });
         })
-        .catch((e) => console.log(e));
+        .catch(e => console.log(e));
+      return;
     } else if (localStorage.getItem("products") && !this.props.currentUser) {
       this.setState({
         count: JSON.parse(localStorage.getItem("products")).length,
       });
     }
+  }
+
+  toggle = (e) => {
+    this.setState({ [e.target.name]: true });
+  };
+
+  onMouseEnter = (e) => {
+    this.setState({ [e.target.name]: true });
+  };
+
+  onMouseLeave = (e) => {
+    this.setState({ [e.target.name]: false });
   };
 
   toggleHeightOne = () => {
@@ -130,32 +133,31 @@ class Header extends React.Component {
   };
 
 
-
-
+  
   render() {
-    const { heightOne, heightTwo, heightThree, heightFour, categories } =
-      this.state;
-    const { currentUser, isAdmin } = this.props;
+    const { heightTwo, heightThree, heightFour } = this.state;
+    const isAdmin = this.props.currentUser && this.props.currentUser.role === 'admin';
+    
 
     return (
       <Navbar className={s.header}>
-        <Container>
+        <Container fluid>
+
           {this.state.innerWidth <= 768 && (
-            <Button
-              className={"bg-transparent border-0 p-0"}
-              onClick={() => this.switchSidebar()}
-            >
-              <img src={menuImg} alt={"menu"} />
-            </Button>
+                <Button
+                    className={"bg-transparent border-0 p-0"}
+                    onClick={() => this.switchSidebar()}
+                >
+                  <img src={menuImg} alt={'menu'} />
+                </Button>
           )}
 
           <NavbarBrand>
-            <Link href={"/"}>
-              <span className={s.logoStyle}></span>
-            </Link>
+            <Link href={"/"}><span className={s.logoStyle}></span></Link>
           </NavbarBrand>
 
           {this.state.innerWidth >= 768 && (
+            <div>
             <nav className={s.nav}>
               <ul className={s.nav__menu}>
                 <li className={s.nav__menuItem} style={{ width: 90 }}>
@@ -167,34 +169,29 @@ class Header extends React.Component {
                     <span className={s.dropdownItem}>Home</span>
                   </ActiveLink>
                 </li>
+                
+                <li className={s.nav__menuItem} style={{ width: 90 }}>
+                  <ActiveLink
+                    className={s.navLink}
+                    onMouseOver={this.toggleHeightOne}
+                    href={"/contact"}
+                  >
+                    <span className={s.dropdownItem}>Contact</span>
+                  </ActiveLink>
+                </li>
 
-                {/* {Array.isArray(categories) &&
-                  categories.map((category, index) => (
-                    <li className={s.nav__menuItem} key={index}>
-                      <span
-                        className={s.dropdownItem}
-                        onMouseOver={this.toggleHeightThree}
-                      >
-                        {category.title}{" "}
-                        <div className={s.dropdownItemImg} />
-                      </span>
-                      <AnimateHeight
-                        duration={500}
-                        className={`${s.nav__submenu}`}
-                        height={heightThree}
-                      >
-                        <UncontrolledDropdown>
-                          <DropdownItem className={s.dropdownMenuItem}>
-                            <ActiveLink href={`/shop/${category.slug}`}>
-                              <a>{category.title}</a>
-                            </ActiveLink>
-                          </DropdownItem>
-                        </UncontrolledDropdown>
-                      </AnimateHeight>
-                    </li>
-                  ))} */}
+                <li className={s.nav__menuItem} style={{ width: 90 }}>
+                  
+                  <ActiveLink
+                    className={s.navLink}
+                    onMouseOver={this.toggleHeightOne}
+                    href={"/shop"}
+                  >
+                    <span className={s.dropdownItem}>Shop</span>
+                  </ActiveLink>
+                </li>
 
-                <li className={s.nav__menuItem}>
+                {/* <li className={s.nav__menuItem}>
                   <span
                     className={s.dropdownItem}
                     onMouseOver={this.toggleHeightThree}
@@ -206,43 +203,43 @@ class Header extends React.Component {
                     className={`${s.nav__submenu}`}
                     height={heightThree}
                   >
-                    {/* <UncontrolledDropdown>
-                      <DropdownItem
-                        className={s.dropdownMenuItem}
-                        style={{ width: "980%", height: "980%" }}
-                      >
+                    <UncontrolledDropdown>
+                      <DropdownItem className={s.dropdownMenuItem}>
                         <ActiveLink href={"/shop"}>
-                          <a>
-                            <MegaMenu model={item} />
-                          </a>
+                          <a>Shop</a>
                         </ActiveLink>
                       </DropdownItem>
-                    </UncontrolledDropdown> */}
-
-<div className={` ${s.header_right}`}>
-  <ul className={`${s.main_menu}`}>
-    <MegaMenu />
-    {/* Add other menu items here */}
-  </ul>
-  {/* <a href="#" id="hamburger-icon" className="mobile-toggler" aria-label="Mobile Menu" onClick={toggleMobileMenu}> */}
-    {/* <i className={mobileMenuVisible ? 'fas fa-xmark' : 'fas fa-bars'}></i> */}
-  {/* </a> Remove this erroneous closing tag */}
-</div>
-
-
+                    </UncontrolledDropdown>
+                  </AnimateHeight>
+                </li> */}
+                <li className={s.nav__menuItem}>
+                  <span
+                    className={s.dropdownItem}
+                    onMouseOver={this.toggleHeightThree}
+                  >
+                    Company<div className={s.dropdownItemImg} />
+                  </span>
+                  <AnimateHeight
+                    duration={500}
+                    className={`${s.nav__submenu}`}
+                    height={heightThree}
+                  >
+                    <UncontrolledDropdown>
+                      <DropdownItem className={s.dropdownMenuItem}>
+                        <ActiveLink href={"/about"}>
+                          <a>About</a>
+                        </ActiveLink>
+                      </DropdownItem>
+                      <DropdownItem className={s.dropdownMenuItem}>
+                        <ActiveLink href={"/announcement"}>
+                          <a>Announcements</a>
+                        </ActiveLink>
+                      </DropdownItem>
+                    </UncontrolledDropdown>
                   </AnimateHeight>
                 </li>
-                <li className={s.nav__menuItem} style={{ width: 90 }}>
-                  <ActiveLink
-                    className={s.navLink}
-                    onMouseOver={this.toggleHeightOne}
-                    href={"/contact"}
-                  >
-                    <span className={s.dropdownItem}>Join Us</span>
-                  </ActiveLink>
-                </li>
-
-                {isAdmin && (
+                
+                {/* {isAdmin && (
                   <li className={s.nav__menuItem}>
                     <ActiveLink
                       className={s.navLink}
@@ -252,53 +249,48 @@ class Header extends React.Component {
                       <span className={s.dropdownItem}>Dashboard</span>
                     </ActiveLink>
                   </li>
-                )}
+                )} */}
               </ul>
             </nav>
+            </div>
           )}
 
           <Nav>
-            <NavItem className="d-flex align-items-center">
-              {this.state.innerWidth >= 768 && (
+            <UncontrolledDropdown nav inNavbar>
+              <DropdownToggle nav caret>
+                {this.props.currentUser ? this.props.currentUser.firstName : "Login"}
+              </DropdownToggle>
+              <DropdownMenu right>
+                {this.props.currentUser ? (
                   <>
-                    <li className={s.nav__menuItem} style={{ width: 90 }}>
-                      {this.props.currentUser ? (
-                          <ActiveLink className={s.navLink} onMouseOver={this.toggleHeightOne} href="/account">
-                            <span className={s.dropdownItemm}>{this.props.currentUser.firstName}</span>
-                          </ActiveLink>
-                      ) : (
-                          <ActiveLink className={s.navLink} onMouseOver={this.toggleHeightOne} href="/login">
-                            <span className={s.dropdownItemm}>Login</span>
-                          </ActiveLink>
-                      )}
-                    </li>
+                  {isAdmin && (                  
+                    <DropdownItem
+                      className={s.navLink}
+                      onMouseOver={this.toggleHeightFour}
+                      href={"/admin/users"}
+                    >
+
+<i className="bi bi-cast"/>Dashboard
+                    </DropdownItem>
+                )}
+                    <DropdownItem href="/admin/dashboard">
+                      <i className="la la-user" /> My Account
+                    </DropdownItem>
+                    <DropdownItem href="/shop">
+                      <i className="bi bi-shop-window" /> Shop
+                    </DropdownItem>
+                    <DropdownItem onClick={this.doLogout}>
+                      <i className="la la-sign-out" /> Log Out
+                    </DropdownItem>
+                    
                   </>
-              )}
-            </NavItem>
-            {/*<NavItem className={"d-flex align-items-center"}>*/}
-            {/*  {this.state.innerWidth >= 768 && (*/}
-            {/*    <>*/}
-            {/*      <li className={s.nav__menuItem} style={{ width: 90 }}>*/}
-
-
-            {/*        <ActiveLink*/}
-            {/*          className={s.navLink}*/}
-            {/*          onMouseOver={this.toggleHeightOne}*/}
-            {/*          href={"/account"} // Adjust the href as needed*/}
-            {/*        >*/}
-            {/*          {this.props.currentUser ? ( // Check if currentUser exists*/}
-            {/*            <span className={s.dropdownItemm}>*/}
-            {/*              {this.props.currentUser.firstName}*/}
-            {/*            </span>*/}
-            {/*          ) : (*/}
-            {/*            <span className={s.dropdownItemm}>Login</span> // Display "Login" text if currentUser is not available*/}
-            {/*          )}*/}
-            {/*        </ActiveLink>*/}
-
-            {/*      </li>*/}
-            {/*    </>*/}
-            {/*  )}*/}
-            {/*</NavItem>*/}
+                ) : (
+                  <DropdownItem href="/login">
+                    <i className="la la-sign-in" /> Login
+                  </DropdownItem>
+                )}
+              </DropdownMenu>
+            </UncontrolledDropdown>
           </Nav>
         </Container>
       </Navbar>
@@ -315,7 +307,7 @@ function mapStateToProps(store) {
     currentUser: store.auth.currentUser,
     navbarType: store.layout.navbarType,
     navbarColor: store.layout.navbarColor,
-    products: store.products.list,
+    products: store.products.list
   };
 }
 

@@ -107,7 +107,7 @@ class Login extends React.Component {
     return (
       <>
         <Head>
-          <title>Login | Yo!Digitals</title>
+          <title>Login | Ecommerce</title>
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"
@@ -272,8 +272,6 @@ class Login extends React.Component {
       >
         Login
       </Button>
-
-      
       <Button
         color={"secondary"}
         style={{ width: "60%", borderRadius: '12px' }}
@@ -281,7 +279,7 @@ class Login extends React.Component {
         onClick={this.toggleMode}
       >
         OTP
-      </Button>           
+      </Button>
     </>
   )}
 </div>
@@ -293,9 +291,9 @@ class Login extends React.Component {
                     <Link href={"/terms"} className={"fw-bold text-dark"}>
                       Terms & Conditions
                     </Link>
-                    <Link href={"/reset"} className={"fw-bold text-dark"}>
+                    {/* <Link href={"/reset"} className={"fw-bold text-dark"}>
                       Forget Password?
-                    </Link>
+                    </Link> */}
                     <Link href={"/terms"} className={"fw-bold text-dark"}>
                       Privacy Policy
                     </Link>
