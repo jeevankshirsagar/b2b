@@ -10,8 +10,14 @@ module.exports = withImages({
         ],
     },
     webpack: (config, { isServer }) => {
-        config.externals = ['webpack', 'readable-stream', 'd3-interpolate', 'next'];
+        // Remove unnecessary externals or adjust as needed
+        // config.externals = ['webpack', 'readable-stream', 'd3-interpolate', 'next'];
+
+        // Check if any other webpack configurations are needed
+        // Modify config as required
+
         return config;
     },
-    output: 'standalone'
+    // Review and adjust output configuration if needed
+    // output: 'standalone'
 });
