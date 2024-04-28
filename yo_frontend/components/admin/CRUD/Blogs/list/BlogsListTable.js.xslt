@@ -121,7 +121,7 @@ class BlogsListTable extends Component {
 
     return (
         <div>
-          <Widget title={<h4>Blogs</h4>} collapse close>
+          <Widget title={<h4>Blogs</h4>} >
             <Link to="/admin/blogs/new">
               <button
                 className="btn btn-primary"

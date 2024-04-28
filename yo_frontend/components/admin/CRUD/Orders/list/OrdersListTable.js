@@ -113,7 +113,7 @@ class OrdersListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4>Orders</h4>} collapse close>
+        <Widget title={<h4>Orders</h4>} >
           <Link to="/admin/orders/new">
             <button className="btn btn-primary" type="button">
               New

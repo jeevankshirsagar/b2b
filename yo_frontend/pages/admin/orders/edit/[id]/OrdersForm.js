@@ -39,7 +39,7 @@ class OrdersForm extends Component {
     const { saveLoading } = this.props;
 
     return (
-      <Widget title={this.title()} collapse close>
+      <Widget title={this.title()} >
         <Formik
           onSubmit={this.handleSubmit}
           initialValues={this.iniValues()}

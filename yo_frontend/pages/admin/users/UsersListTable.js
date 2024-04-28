@@ -134,7 +134,7 @@ class UsersListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h3 className="s.tabel_title fw-bold">Retailer List</h3>} collapse close>
+        <Widget title={<h3 className="s.tabel_title fw-bold">Retailer List</h3>} >
           <Link href="/admin/users/new">
             <button className="btn btn-dark" type="button" style={{borderRadius : '12px'}}>
               Add Retailer

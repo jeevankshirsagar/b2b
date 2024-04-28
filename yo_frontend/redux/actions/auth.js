@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import config from "constants/config";
 import jwt from "jsonwebtoken";
@@ -103,7 +102,7 @@ export function loginUser(creds) {
         })
         .catch((err) => {
           if(err.code === 'ERR_BAD_REQUEST') {
-            alert(err.response.data);
+            toast.error(err.response.data);
             console.error(err.response.data);
           }
 
@@ -190,6 +189,7 @@ export function registerUser(creds) {
           toast.success(
             "You've been registered successfully. Please check your email for verification link"
           );
+          
            if (typeof window !== 'undefined') { window.location.href = "/login" }
         })
         .catch((err) => {
@@ -200,4 +200,3 @@ export function registerUser(creds) {
     }
   };
 }
-

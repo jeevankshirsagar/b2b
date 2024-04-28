@@ -100,7 +100,7 @@ const FeedbackForm = (props) => {
   }, []);
 
   return (
-    <Widget title={<h4>{title()}</h4>} collapse close>
+    <Widget title={<h4>{title()}</h4>} >
       <Formik
         onSubmit={handleSubmit}
         initialValues={iniValues()}

@@ -9,7 +9,7 @@ class CategoriesView extends Component {
     const { record } = this.props;
 
     return (
-      <Widget title={<h4>{"View User"}</h4>} collapse close>
+      <Widget title={<h4>{"View User"}</h4>} >
         <ImagesViewItem label={"Avatar"} value={record.avatar} />
 
         <TextViewItem label={"First name"} value={record.firstName} />

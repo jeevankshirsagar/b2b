@@ -1,4 +1,3 @@
-
 import React from "react";
 import {
   Navbar,
@@ -313,4 +312,3 @@ function mapStateToProps(store) {
 }
 
 export default withRouter(connect(mapStateToProps)(Header));
-

@@ -1,4 +1,7 @@
+<<<<<<< HEAD
+=======
 
+>>>>>>> 95c2e4e83befc92d5e48c2983e2f012a9cb57498
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Button, Table } from "reactstrap";
 import Head from "next/head";
@@ -100,19 +103,32 @@ const Index = () => {
   };
 
   const refreshPageTwice = () => {
-    window.location.reload(); // First refresh
+    window.location.reload(); 
     setTimeout(() => {
-      window.location.reload(); // Second refresh after a delay
-    }, 100); // Delay in milliseconds (adjust as needed)
+      window.location.reload(); 
+    }, 100); 
   };
 
 
+<<<<<<< HEAD
+  const duesDate = new Date("2024-03-20"); 
+  const currentDate = new Date();
+=======
+>>>>>>> 95c2e4e83befc92d5e48c2983e2f012a9cb57498
 
   
   const chartData = currentUser ? [
     { x: "Current Date", y: currentUser.balance } // Assuming this is a single data point
   ] : [];
 
+<<<<<<< HEAD
+  useEffect(() => {
+    if (currentDate >= duesDate) {
+      
+      setShowPopup(true);
+    }
+  }, []);
+=======
   const options = {
     chart: {
       type: "line",
@@ -146,6 +162,7 @@ useEffect(() => {
     setShowPopup(true);
   }
 }, [duesDate, currentDate]); 
+>>>>>>> 95c2e4e83befc92d5e48c2983e2f012a9cb57498
 
 
 

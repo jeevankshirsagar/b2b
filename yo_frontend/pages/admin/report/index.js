@@ -31,33 +31,6 @@ const Report = () => {
       .catch(error => console.error('Error fetching data:', error));
   };
 
-  // const handleDownloadPDF = () => {
-  //   const doc = new jsPDF();
-  //   const columns = [
-  //     { title: 'ID', dataKey: 'id' },
-  //     { title: 'Status', dataKey: 'status' },
-  //     { title: 'Order Number', dataKey: 'order_no' },
-  //     { title: 'Order Date', dataKey: 'order_date' },
-  //     { title: 'User ID', dataKey: 'user.id' },
-  //     { title: 'User Business Name', dataKey: 'user.bname' },
-  //     { title: 'User Business Address', dataKey: 'user.baddress' },
-  //     { title: 'User GST', dataKey: 'user.gst' },
-  //     { title: 'User PAN', dataKey: 'user.pan' }
-  //   ];
-  //   const rows = selectedItems.map(item => ({
-  //     id: item.id,
-  //     status: item.status,
-  //     order_no: item.order_no,
-  //     order_date: item.order_date,
-  //     'user.id': item.user.id,
-  //     'user.bname': item.user.bname,
-  //     'user.baddress': item.user.baddress,
-  //     'user.gst': item.user.gst,
-  //     'user.pan': item.user.pan
-  //   }));
-  //   doc.autoTable({ columns, body: rows });
-  //   doc.save('report.pdf');
-  // };
 
   const handleDownloadExcel = () => {
     import('xlsx').then((xlsx) => {

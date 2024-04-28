@@ -139,7 +139,7 @@ class FeedbackListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h3 className="fw-bold">Enquiries</h3>} collapse close>
+        <Widget title={<h3 className="fw-bold">Enquiries</h3>} >
           <Link href="/admin/feedback/new">
             <button className="btn btn-dark" style={{borderRadius: '12px'}}type="button">
              Add Enquiry

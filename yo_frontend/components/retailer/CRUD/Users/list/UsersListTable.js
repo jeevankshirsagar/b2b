@@ -110,7 +110,7 @@ class UsersListTable extends Component {
 
     return (
       <div>
-        <Widget title={<h4>Users</h4>} collapse close>
+        <Widget title={<h4>Users</h4>} >
           <Link to="/admin/users/new">
             <button className="btn btn-primary" type="button">
               New
