@@ -1,8 +1,8 @@
 import React from "react";
 import { Container, Button } from "reactstrap"; // Import Button from reactstrap
 import s from "./Billing.module.scss";
-// import confirmedAnimation from "../../public/animation/confirmed.json";
-// import Lottie from 'lottie-react';
+import confirmedAnimation from "../../public/animation/confirmed.json";
+import Lottie from 'lottie-react';
 import Link from "next/link";
 
 
